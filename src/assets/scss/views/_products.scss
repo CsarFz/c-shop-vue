@@ -1,0 +1,113 @@
+@import "../assets/scss/abstracts/settings";
+
+.filter {
+    &-widget {
+        margin-bottom: 100px;
+
+        & .fw-title {
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 45px;
+        }
+    }
+}
+
+.category-menu {
+    list-style: none;
+
+    & li {
+        &:hover>a {
+            color: $primary-cshop;
+        }
+
+        &.active>.sub-menu {
+            display: block;
+            height: auto;
+            opacity: 1;
+            -webkit-transform: rotateX(0deg);
+            transform: rotateX(0deg);
+        }
+
+        & a {
+            display: block;
+            position: relative;
+            font-size: 12px;
+            color: #414141;
+            border-bottom: 1px solid $grey-25-cshop;
+            padding: 12px 0 5px 20px;
+
+            &:hover {
+                color: $primary-cshop;
+            }
+
+            &:after {
+                position: absolute;
+                content: "";
+                width: 9px;
+                height: 9px;
+                left: 0;
+                top: 13px;
+                border: 1px solid $primary-cshop;
+                border-radius: 50%;
+            }
+
+            &:hover:after {
+                background: $primary-cshop;
+            }
+
+            &:last-child a {
+                margin-bottom: 0;
+            }
+
+            & span {
+                float: right;
+            }
+        }
+
+        & .sub-menu {
+            list-style: none;
+            overflow: hidden;
+            height: 0;
+            -webkit-transform: rotateX(90deg);
+            transform: rotateX(90deg);
+            opacity: 0;
+            -webkit-transition: opacity 0.4s, -webkit-transform 0.4s;
+            transition: opacity 0.4s, -webkit-transform 0.4s;
+            -o-transition: transform 0.4s, opacity 0.4s;
+            transition: transform 0.4s, opacity 0.4s;
+            transition: transform 0.4s, opacity 0.4s, -webkit-transform 0.4s;
+
+            & li a {
+                padding-left: 45px;
+            }
+        }
+    }
+}
+
+.page-top-info {
+    background: $grey-cshop;
+    padding: 60px 0 70px;
+
+    & h4 {
+        color: $dark-cshop;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+}
+
+.site-pagination {
+    font-size: 14px;
+    font-weight: 600;
+    color: $dark-cshop;
+
+    & a {
+        display: inline-block;
+        font-size: 14px;
+        color: $dark-cshop;
+
+        &:hover {
+            color: $primary-cshop;
+        }
+    }
+}

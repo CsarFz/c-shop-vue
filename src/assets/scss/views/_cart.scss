@@ -1,0 +1,191 @@
+@import "../assets/scss/abstracts/settings";
+
+.scrollbar {
+    margin: 80px auto 0;
+    width: 100%;
+    height: 7px;
+    line-height: 0;
+    background: #ececec;
+    overflow: hidden;
+
+    & .handle {
+        width: 100px;
+        height: 100%;
+        background: $white-cshop;
+        cursor: pointer;
+
+        & .mousearea {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 7px;
+            background: #b09d81;
+            border-radius: 30px;
+        }
+    }
+}
+
+.cart-table {
+    padding: 40px 34px 0;
+    background: #f0f0f0;
+    border-radius: 27px;
+    overflow: hidden;
+
+    & h3 {
+        font-weight: 700;
+        margin-bottom: 37px;
+    }
+
+    & table {
+        width: 100%;
+        min-width: 442px;
+        margin-bottom: 17px;
+
+        & tr th {
+            font-size: 12px;
+            font-weight: 400;
+            color: $dark-cshop;
+            text-align: center;
+            padding-bottom: 25px;
+
+            &.product-th {
+                text-align: left;
+            }
+
+            &.quy-th {
+                padding-right: 20px;
+            }
+        }
+
+    }
+
+    & .product-col {
+        display: table;
+        margin-bottom: 19px;
+
+        & img {
+            display: table-cell;
+            vertical-align: middle;
+            float: left;
+            width: 73px;
+        }
+
+        & .pc-title {
+            display: table-cell;
+            vertical-align: middle;
+            padding-left: 30px;
+
+            & h4 {
+                font-size: 16px;
+                color: $dark-cshop;
+                font-weight: 700;
+                margin-bottom: 3px;
+            }
+
+            & p {
+                margin-bottom: 0;
+                font-size: 16px;
+                color: $dark-cshop;
+            }
+        }
+    }
+
+    & .quy-col {
+        padding-right: 20px;
+    }
+
+    & .quantity {
+        margin-bottom: 0;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+
+        & .pro-qty {
+            width: 80px;
+            background: $white-cshop;
+            border-color: $white-cshop;
+
+            & .qtybtn {
+                width: 10px;
+            }
+        }
+    }
+
+    & .total-col {
+        text-align: center;
+
+        & h4 {
+            font-size: 18px;
+            color: $dark-cshop;
+            font-weight: 400;
+        }
+    }
+
+    & .total-cost {
+        background: $primary-cshop;
+        margin: 0 -34px;
+        text-align: right;
+        padding: 22px 0;
+        padding-right: 50px;
+
+        & h6 {
+            line-height: 1;
+            font-size: 18px;
+            font-weight: 700;
+            color: $white-cshop;
+
+            & span {
+                margin-left: 38px;
+            }
+        }
+    }
+} 
+
+.card-right .btn-cshop {
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    max-width: 100%;
+    min-height: 57px;
+}
+
+.promo-code-form {
+    position: relative;
+    margin-bottom: 14px;
+
+    & input {
+        width: 100%;
+        height: 58px;
+        border: 2px solid #f0f0f0;
+        padding-left: 24px;
+        padding-right: 100px;
+        font-size: 16px;
+        border-radius: 80px;
+    }
+
+    & button {
+        position: absolute;
+        right: 24px;
+        top: 0;
+        height: 100%;
+        background-color: transparent;
+        border: none;
+        text-transform: uppercase;
+        font-size: 16px;
+        font-weight: 700;
+        color: $primary-cshop;
+        cursor: pointer;
+    }
+}
+
+.btn-continue {
+    background: transparent;
+    color: $dark-cshop;
+    border: 1px solid $dark-cshop;
+
+    &:hover {
+        background: $dark-cshop;
+        color: $white-cshop !important;
+        border: 1px solid $dark-cshop;
+    }
+}

@@ -1,0 +1,223 @@
+html,
+body {
+	height: 100%;
+	font-family: 'Josefin Sans', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0;
+	color: #141726;
+	font-weight: 600;
+}
+
+p {
+	font-size: 14px;
+	color: #585858;
+	line-height: 1.6;
+}
+
+input:focus,
+select:focus,
+button:focus,
+textarea:focus,
+.form-control:focus {
+	outline: none;
+	box-shadow: none;
+	border-color: #ced4da;
+}
+
+a:hover,
+a:focus {
+	text-decoration: none;
+	outline: none;
+}
+
+ul,
+ol {
+	padding: 0;
+	margin: 0;
+}
+
+/*---------------------
+  Commom elements
+-----------------------*/
+
+/* inputs */
+
+input {
+	border-radius: 50px !important;
+}
+
+input.error,
+input.error:focus {
+	border: 1px solid #dc3545;
+}
+
+.errorMessage {
+	color: #dc3545;
+	font-size: 0.75em;
+	display: relative;
+	margin: 0;
+}
+
+/* buttons */
+
+.btn {
+	line-height: normal;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: 600;
+	text-transform: uppercase;
+	border-radius: 50px;
+}
+
+.site-btn {
+	border: none;
+	min-width: 167px;
+	padding: 18px 47px 14px;
+	background: #E9155F;
+	color: #fff;
+}
+
+.site-btn-animated {
+	z-index: 1;
+	overflow: hidden;
+	background: transparent;
+	position: relative;
+	padding: 18px 47px 14px;
+	font-size: 1em;
+	letter-spacing: 2px;
+	transition: 0.2s ease;
+	font-weight: bold;
+	margin: 5px 0px;
+	border: 3px solid #E9155F;
+}
+
+.site-btn-animated::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 0%;
+	height: 100%;
+	background: #E9155F;
+	z-index: -1;
+	transition: 0.2s ease;
+}
+
+.site-btn-animated:hover {
+	color: #FFF;
+	background: #E9155F;
+	transition: 0.2s ease;
+}
+
+.site-btn-animated:hover::before {
+	width: 100%;
+}
+
+.site-btn:hover {
+	color: #E9155F;
+	background: #FFF;
+	border: 1px solid #E9155F;
+}
+
+.btn-danger {
+	border: none;
+	min-width: 167px;
+	padding: 18px 47px 14px;
+}
+
+.btn-edit {
+	font-size: 14px;
+	font-weight: 600;
+	padding: 10px 30px;
+	border: 1px solid #858B9D;
+	color: #858B9D;
+}
+
+.btn-edit:hover {
+	color: #FFF;
+	background: #858B9D;
+}
+
+.btn-more {
+	padding: 10px 30px;
+	text-transform: uppercase;
+	border: 1px solid #E9155F;
+	color: #E9155F;
+	padding: 18px 47px 14px;
+}
+
+.btn-more:hover {
+	background: #E9155F;
+	color: #FFF;
+}
+
+.btn-danger:hover {
+	color: #DC3545;
+	background: #FFF;
+	border: 1px solid #DC3545;
+}
+/*---------------------
+  Helper CSS
+-----------------------*/
+
+.set-bg {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: top center;
+}
+
+.spad {
+	padding: 105px 0;
+}
+
+/* --------------
+  Other Pages
+------------------*/
+
+.page-top-info {
+	background: #ECF0F4;
+	padding: 60px 0 70px;
+}
+
+.page-top-info h4 {
+	color: #141726;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.site-pagination {
+	font-size: 14px;
+	font-weight: 600;
+	color: #141726;
+}
+
+.site-pagination a {
+	display: inline-block;
+	font-size: 14px;
+	color: #141726;
+}
+
+.site-pagination a:hover {
+	color: #E9155F;
+}
+
+@media only screen and (max-width: 767px) {
+	.user-panel {
+		text-align: center;
+	}
+}
+
+@media only screen and (max-width: 991px) and (min-width: 768px) {
+	.main-menu {
+		text-align: center;
+	}
+}

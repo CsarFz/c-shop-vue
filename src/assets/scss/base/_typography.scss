@@ -1,0 +1,78 @@
+/**
+ * Basic typography style for copy text
+ */
+body {
+  color: $dark-cshop;
+  font-family: $text-font-regular-cshop;
+
+  @each $size in 'xxl' {
+    @include breakpoint($size) {
+      font-size: map_get($paragraph-1, $size);
+    }
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $text-font-bold-cshop;
+  color: $dark-cshop;
+}
+
+p {
+  font-size: 14px;
+  color: $dark-50-cshop;
+  line-height: 1.6;
+}
+
+.text-bold {
+  font-family: $text-font-bold-cshop;
+}
+
+.textMuted {
+  color: #c8ccd0;
+}
+
+.text-primary-cshop {
+  color: $primary-cshop;
+}
+
+.primary-input {
+  border-radius: initial;
+  background: $grey-cshop;
+  font-size: 15px;
+  border-radius: 7px;
+  letter-spacing: 1px;
+  color: $grey-25-cshop;
+  border: none;
+  height: 3rem;
+
+  &:focus {
+    outline: 0 !important;
+    border-color: $white-cshop;
+    color: $dark-50-cshop;
+    box-shadow: 0 0 0 0.13rem $dark-50-cshop;
+    background-color: $grey-cshop;
+
+    & ::-moz-placeholder,
+    & :-ms-input-placeholder,
+    & ::-ms-input-placeholder,
+    & ::placeholder {
+      color: $dark-50-cshop !important;
+    }
+  }
+
+  &::-moz-placeholder,
+  &:-ms-input-placeholder,
+  &::-ms-input-placeholder,
+  &::placeholder {
+    color: $dark-50-cshop;
+  }
+}
+
+#profileForm label {
+  font-size: 16px;
+}

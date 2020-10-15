@@ -1,0 +1,62 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the button component.
+// -----------------------------------------------------------------------------
+
+/// Size cshop buttons
+
+$btn-cshop-min-width: (xs: 145px, lg: 150px, xl: 160px, xxl: 174px);
+$btn-cshop-max-width: (xs: 145px, lg: 150px, xl: 170px, xxl: 184px);
+$btn-cshop-min-height: (xs: 48px, lg: 37px, xl: 40px, xxl: 44px);
+$btn-cshop-max-height: (xs: 48px, lg: 37px, xl: 40px, xxl: 44px);
+
+a.btn-cshop {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-cshop {
+  font-family: $text-font-bold-cshop;
+  white-space: nowrap;
+  border-radius: 50px;
+  text-transform: uppercase;
+  padding-top: .5rem;
+  // width: 100%;
+
+  & {
+    background: $primary-cshop;
+    color: $white-cshop;
+  }
+
+  &.outlined {
+    background: $white-cshop;
+    color: $dark-cshop;
+    border: 2px solid $primary-cshop;
+  }
+
+  @each $size in $sizes {
+    @include breakpoint($size) {
+      font-size: map_get($paragraph-3, $size);
+      min-width: map_get($btn-cshop-min-width, $size);
+      max-width: map_get($btn-cshop-max-width, $size);
+      ;
+      min-height: map_get($btn-cshop-min-height, $size);
+      max-height: map_get($btn-cshop-max-height, $size);
+    }
+  }
+
+
+  @include hover-focus {
+    text-decoration: none;
+    color: $primary-cshop !important;
+    background: $white-cshop;
+    border-color: $primary-cshop;
+  }
+
+  @include hover-focus-outlined {
+    text-decoration: none;
+    color: $white-cshop !important;
+    background: $primary-cshop;
+    border: 1px solid transparent;
+  }
+}
