@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
+import Home from '../views/Home.vue'
 import Login from "../views/Login.vue";
 import SignUp from "../views/SignUp.vue";
 import Profile from "../views/Profile.vue";
@@ -11,6 +11,9 @@ import ShoppingCart from "../views/ShoppingCart.vue";
 import Checkout from "../views/Checkout.vue";
 import NotFound from "../views/NotFound.vue";
 
+import Toasted from "vue-toasted";
+
+Vue.use(Toasted, { iconPack : 'fontawesome' })
 Vue.use(VueRouter)
 
 const routes = [

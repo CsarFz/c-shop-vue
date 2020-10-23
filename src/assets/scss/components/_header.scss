@@ -38,6 +38,9 @@
     @include breakpoint('xs') {
         text-align: center;
     }
+    @include breakpoint('lg') {
+        text-align: left;
+    }
 
     & .up-item {
         display: inline-block;
@@ -89,6 +92,7 @@
         & li {
             display: inline-block;
             position: relative;
+            text-align: left;
 
             &:hover .sub-menu {
                 visibility: visible;

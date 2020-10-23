@@ -8,7 +8,7 @@
               <div class="row">
                 <div class="col-12">
                   <h2 class="card-title float-left">Perfil</h2>
-                  <button class="btn btn-edit float-right" id="btn-edit">
+                  <button class="btn btn-edit float-right" id="btn-edit" @click="$toasted.show('I did it', { position: 'bottom-center', duration: 3000, keepOnHover: true, icon: 'check' })">
                     Editar <i class="fas fa-edit fa-sm"></i>
                   </button>
                 </div>
