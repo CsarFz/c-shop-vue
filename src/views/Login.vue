@@ -6,6 +6,13 @@
           <div class="card pt-5 pb-3 border-20 shadow border-0">
             <div class="card-body">
               <h2 class="card-title text-center">Iniciar sesión</h2>
+              <div class="form-group text-center">
+                <p v-if="errors.length">
+                  <ul class="list-unstyled">
+                    <li :key="index" v-for="(error, index) in errors" class="text-danger">{{ error }}</li>
+                  </ul>
+                </p>
+              </div>
               <div class="form-group row">
                 <div class="col-sm-12 px-lg-5 pb-3">
                   <input
@@ -13,6 +20,7 @@
                     class="form-control form-control-lg primary-input"
                     id="email"
                     name="email"
+                    v-model="email"
                     placeholder="Correo electrónico"
                   />
                 </div>
@@ -22,12 +30,17 @@
                     class="form-control form-control-lg primary-input"
                     id="password"
                     name="password"
+                    v-model="password"
                     placeholder="Contraseña"
                   />
                 </div>
               </div>
               <div class="form-group d-flex justify-content-center">
-                <button id="login" class="btn btn-cshop my-3">
+                <button
+                  id="login"
+                  class="btn btn-cshop my-3"
+                  @click.prevent="login"
+                >
                   Iniciar sesión
                 </button>
               </div>
@@ -35,7 +48,8 @@
               <div class="row">
                 <div class="col-md-12 text-center text-muted">
                   <p>
-                    <a href="#"
+                    <a
+                      href="#"
                       class="link-cShop"
                       data-toggle="modal"
                       data-backdrop="static"
@@ -94,7 +108,9 @@
                   </button>
                 </div>
                 <div class="col-12 col-md-6">
-                  <button class="btn btn-danger w-100" data-dismiss="modal">Cancelar</button>
+                  <button class="btn btn-danger w-100" data-dismiss="modal">
+                    Cancelar
+                  </button>
                 </div>
               </div>
             </div>
@@ -107,12 +123,66 @@
 </template>
 
 <script>
+import axios from "axios";
+
 import Modal from "../components/Modal";
 
 export default {
   name: "Login",
   components: {
     Modal: Modal,
+  },
+  data() {
+    return {
+      errors: [],
+      email: null,
+      password: null,
+    };
+  },
+  methods: {
+    login() {
+      const data = {
+        username: this.email,
+        password: this.password,
+      };
+
+      if (this.formValid()) {
+        axios
+          .post(
+            "https://8rj68a68ml.execute-api.us-east-1.amazonaws.com/default/login",
+            data
+          )
+          .then((response) => {
+            if (response.data.response === "success") {
+              this.$toasted.success("Ha iniciado sesión", {
+                duration: 3000,
+                keepOnHover: true,
+                icon: "check",
+              });
+              this.$store.dispatch("setUser", data);
+              this.$router.push("/");
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    },
+    formValid() {
+      this.errors = [];
+
+      if (!this.email) {
+        this.errors.push("El correo electrónico es obligatorio.");
+      }
+
+      if (!this.password) {
+        this.errors.push("La contraseña es obligatoria.");
+      }
+
+      if (!this.errors.length) {
+        return true;
+      }
+    },
   },
 };
 </script>

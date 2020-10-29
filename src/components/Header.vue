@@ -10,18 +10,22 @@
           </div>
           <div class="col-xl-6 col-lg-5">
             <form class="header-search-form">
-              <input type="text" placeholder="Buscar..." class="primary-input"/>
+              <input
+                type="text"
+                placeholder="Buscar..."
+                class="primary-input"
+              />
               <button><i class="fas fa-search fa-xs"></i></button>
             </form>
           </div>
           <div class="col-xl-4 col-lg-5">
             <div class="user-panel">
-              <div class="up-item">
+              <div class="up-item" v-if="!$store.getters.isLoggedIn">
                 <i class="fas fa-user mr-2 fa-lg"></i>
                 <router-link to="/login">Iniciar Sesión</router-link> o
                 <router-link to="/signup">Crear Cuenta</router-link>
               </div>
-              <div class="up-item">
+              <div class="up-item" v-else>
                 <ul class="main-menu">
                   <li>
                     <router-link to="/profile"
@@ -32,7 +36,9 @@
                       <li>
                         <router-link to="/profile">Mi perfil</router-link>
                       </li>
-                      <li><router-link to="/">Cerrar Sesión</router-link></li>
+                      <li>
+                        <a href="#" @click.prevent="logout">Cerrar Sesión</a>
+                      </li>
                     </ul>
                   </li>
                 </ul>
@@ -55,7 +61,9 @@
           <li><router-link to="/">Inicio</router-link></li>
           <!-- <li><a href="#">- <span class="new">New</span></a></li> -->
           <li><router-link to="/products">Productos</router-link></li>
-          <li><router-link to="#">Mis compras</router-link></li>
+          <li v-if="$store.getters.isLoggedIn">
+            <router-link to="#">Mis compras</router-link>
+          </li>
         </ul>
       </div>
     </nav>
@@ -78,10 +86,12 @@
           </div>
           <div class="nav-item">
             <div class="navbar-nav">
-              <router-link to="/products" class="nav-link">Productos</router-link>
+              <router-link to="/products" class="nav-link"
+                >Productos</router-link
+              >
             </div>
           </div>
-          <div class="nav-item">
+          <div class="nav-item" v-if="$store.getters.isLoggedIn">
             <router-link to="/contact" class="nav-link"
               >Mis compras</router-link
             >
@@ -93,7 +103,15 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "Header",
+  methods: {
+    logout() {
+      this.$store.dispatch("setUser", null);
+      this.$router.push("/").catch(() => {});
+    },
+  },
+};
 </script>
 
 <style lang="scss">

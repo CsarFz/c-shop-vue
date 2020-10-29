@@ -8,8 +8,17 @@
               <div class="row">
                 <div class="col-12">
                   <h2 class="card-title float-left">Perfil</h2>
-                  <button class="btn btn-edit float-right" id="btn-edit" @click="$toasted.show('I did it', { position: 'bottom-center', duration: 3000, keepOnHover: true, icon: 'check' })">
-                    Editar <i class="fas fa-edit fa-sm"></i>
+                  <button
+                    class="btn btn-edit float-right"
+                    id="btn-edit"
+                    @click.prevent="editProfile"
+                  >
+                    <span v-if="!canEdit"
+                      >Editar <i class="fas fa-edit fa-sm"></i
+                    ></span>
+                    <span v-else
+                      >Cancelar <i class="fas fa-times fa-sm"></i
+                    ></span>
                   </button>
                 </div>
                 <form id="profileForm" class="mx-3">
@@ -24,9 +33,13 @@
                         <div class="col-sm-9">
                           <input
                             type="text"
-                            readOnly
+                            :readonly="!canEdit"
                             name="name"
-                            class="form-control-plaintext"
+                            :class="
+                              canEdit
+                                ? 'form-control'
+                                : 'form-control-plaintext'
+                            "
                             id="name"
                             value="César Adrián"
                           />
@@ -43,9 +56,13 @@
                         <div class="col-sm-9">
                           <input
                             type="text"
-                            readOnly
+                            :readonly="!canEdit"
                             name="surnames"
-                            class="form-control-plaintext"
+                            :class="
+                              canEdit
+                                ? 'form-control'
+                                : 'form-control-plaintext'
+                            "
                             id="surnames"
                             value="Galván Medrano"
                           />
@@ -62,9 +79,13 @@
                         <div class="col-sm-9">
                           <input
                             type="tel"
-                            readOnly
+                            :readonly="!canEdit"
                             name="phone"
-                            class="form-control-plaintext"
+                            :class="
+                              canEdit
+                                ? 'form-control'
+                                : 'form-control-plaintext'
+                            "
                             id="phone"
                             value="5512345678"
                           />
@@ -83,15 +104,19 @@
                             type="email"
                             readOnly
                             name="email"
-                            class="form-control-plaintext"
+                            :class="
+                              canEdit
+                                ? 'form-control'
+                                : 'form-control-plaintext'
+                            "
                             id="email"
                             value="email@example.com"
                           />
                         </div>
                       </div>
                     </div>
-                    <div class="col-12 text-center">
-                      <button class="btn btn-cshop d-none" type="submit">
+                    <div class="col-12 text-center" v-if="canEdit">
+                      <button class="btn btn-cshop" type="submit">
                         Guardar
                       </button>
                     </div>
@@ -107,7 +132,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      canEdit: false,
+    };
+  },
+  methods: {
+    editProfile() {
+      this.canEdit = !this.canEdit;
+    },
+  },
+};
 </script>
 
 <style>

@@ -1,5 +1,6 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import store from '../store';
 
 import Home from '../views/Home.vue'
 import Login from "../views/Login.vue";
@@ -13,11 +14,15 @@ import NotFound from "../views/NotFound.vue";
 
 import Toasted from "vue-toasted";
 
-Vue.use(Toasted, { iconPack : 'fontawesome' })
+Vue.use(Toasted, {
+  iconPack: 'fontawesome'
+})
 Vue.use(VueRouter)
 
-const routes = [
-  { path: "*", redirect: "/404" },
+const routes = [{
+    path: "*",
+    redirect: "/404"
+  },
   {
     path: '/',
     name: 'Home',
@@ -44,7 +49,7 @@ const routes = [
     name: "profile",
     component: Profile,
     meta: {
-      guest: true
+      auth: true
     }
   },
   {
@@ -66,25 +71,20 @@ const routes = [
     path: "/cart",
     component: ShoppingCart,
     meta: {
-      guest: true
+      auth: true
     }
   },
   {
     path: "/checkout",
     component: Checkout,
     meta: {
-      guest: true
+      auth: true
     }
   },
-  { path: '/404', component: NotFound } 
-  // {
-  //   path: '/about',
-  //   name: 'About',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  // }
+  {
+    path: '/404',
+    component: NotFound
+  }
 ]
 
 const router = new VueRouter({
@@ -92,5 +92,19 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.auth)) {
+    if (!store.getters.isLoggedIn) {
+      next({
+        name: "login"
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 
 export default router
