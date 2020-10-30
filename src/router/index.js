@@ -38,7 +38,7 @@ const routes = [{
   },
   {
     path: "/signup",
-    name: "singup",
+    name: "signup",
     component: SignUp,
     meta: {
       guest: true
@@ -55,17 +55,11 @@ const routes = [{
   {
     path: "/products",
     name: "products",
-    component: Products,
-    meta: {
-      guest: true
-    }
+    component: Products
   },
   {
     path: "/products/:id",
-    component: DetailsProducts,
-    meta: {
-      guest: true
-    }
+    component: DetailsProducts
   },
   {
     path: "/cart",
@@ -96,8 +90,18 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.auth)) {
     if (!store.getters.isLoggedIn) {
+      next("login");
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+
+  if (to.matched.some(record => record.meta.guest)) {
+    if (store.getters.isLoggedIn) {
       next({
-        name: "login"
+        path: "/"
       });
     } else {
       next();

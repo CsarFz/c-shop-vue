@@ -20,7 +20,7 @@
           </div>
           <div class="col-xl-4 col-lg-5">
             <div class="user-panel">
-              <div class="up-item" v-if="!$store.getters.isLoggedIn">
+              <div class="up-item py-3" v-if="!$store.getters.isLoggedIn">
                 <i class="fas fa-user mr-2 fa-lg"></i>
                 <router-link to="/login">Iniciar Sesión</router-link> o
                 <router-link to="/signup">Crear Cuenta</router-link>
