@@ -161,6 +161,9 @@ export default {
               });
               this.$store.dispatch("setUser", data);
               this.$router.push("/");
+            } else {
+              this.errors = [];
+              this.errors.push("Usuario o contraseña incorrectos.");
             }
           })
           .catch((e) => {

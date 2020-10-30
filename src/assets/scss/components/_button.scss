@@ -60,3 +60,49 @@ a.btn-cshop {
     border: 1px solid transparent;
   }
 }
+
+.btn-danger {
+  font-family: $text-font-bold-cshop;
+  white-space: nowrap;
+  border-radius: 50px;
+  text-transform: uppercase;
+  padding-top: .5rem;
+  // width: 100%;
+
+  & {
+    background: $danger-cshop;
+    color: $white-cshop;
+  }
+
+  &.outlined {
+    background: $white-cshop;
+    color: $dark-cshop;
+    border: 2px solid $danger-cshop;
+  }
+
+  @each $size in $sizes {
+    @include breakpoint($size) {
+      font-size: map_get($paragraph-3, $size);
+      min-width: map_get($btn-cshop-min-width, $size);
+      max-width: map_get($btn-cshop-max-width, $size);
+      ;
+      min-height: map_get($btn-cshop-min-height, $size);
+      max-height: map_get($btn-cshop-max-height, $size);
+    }
+  }
+
+
+  @include hover-focus {
+    text-decoration: none;
+    color: $danger-cshop !important;
+    background: $white-cshop;
+    border-color: $danger-cshop;
+  }
+
+  @include hover-focus-outlined {
+    text-decoration: none;
+    color: $white-cshop !important;
+    background: $danger-cshop;
+    border: 1px solid transparent;
+  }
+}
