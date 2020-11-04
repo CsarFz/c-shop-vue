@@ -10,13 +10,10 @@ import Products from "../views/Products.vue";
 import DetailsProducts from "../views/DetailsProduct.vue";
 import ShoppingCart from "../views/ShoppingCart.vue";
 import Checkout from "../views/Checkout.vue";
+import Orders from "../views/Orders.vue";
+import OrderDetails from "../components/OrderDetails.vue";
 import NotFound from "../views/NotFound.vue";
 
-import Toasted from "vue-toasted";
-
-Vue.use(Toasted, {
-  iconPack: 'fontawesome'
-})
 Vue.use(VueRouter)
 
 const routes = [{
@@ -59,7 +56,9 @@ const routes = [{
   },
   {
     path: "/products/:id",
-    component: DetailsProducts
+    name: "product",
+    component: DetailsProducts,
+    props: true
   },
   {
     path: "/cart",
@@ -74,6 +73,19 @@ const routes = [{
     meta: {
       auth: true
     }
+  },
+  {
+    path: "/orders",
+    component: Orders,
+    meta: {
+      auth: true
+    }
+  },
+  {
+    path: "/orders/:id",
+    name: "order",
+    component: OrderDetails,
+    props: true
   },
   {
     path: '/404',

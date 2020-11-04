@@ -2,8 +2,8 @@
   <section class="product-section">
     <div class="container">
       <div class="back-link">
-        <router-link to="/products">
-          <i class="fas fa-chevron-left"></i> Regresar</router-link
+        <a href="#" @click="$router.go(-1)">
+          <i class="fas fa-chevron-left"></i> Regresar</a
         >
       </div>
       <div class="row">
@@ -15,51 +15,14 @@
               alt=""
             />
           </div>
-          <!-- <div
-            class="product-thumbs"
-            tabIndex="1"
-            style="overflow: hidden; outline: none"
-          >
-            <div class="product-thumbs-track">
-              <div class="pt active" data-imgbigurl="https://picsum.photos/600">
-                <img src="https://picsum.photos/600" class="img-fluid" alt="" />
-              </div>
-              <div class="pt" data-imgbigurl="img/single-product/2.jpg">
-                <img src="img/single-product/thumb-2.jpg" alt="" />
-              </div>
-              <div class="pt" data-imgbigurl="img/single-product/3.jpg">
-                <img src="img/single-product/thumb-3.jpg" alt="" />
-              </div>
-              <div class="pt" data-imgbigurl="img/single-product/4.jpg">
-                <img src="img/single-product/thumb-4.jpg" alt="" />
-              </div>
-            </div>
-          </div> -->
         </div>
         <div class="col-lg-6 product-details">
           <h2 class="p-title">Videojuego</h2>
-          <h3 class="p-price">${{ id }}.00</h3>
+          <h3 class="p-price">${{ $route.params.id }}.00</h3>
           <h4 class="p-stock">Disponible: <span>En stock</span></h4>
-          <div class="p-rating">
-            <i class="far fa-star"></i>
-            <i class="far fa-star"></i>
-            <i class="far fa-star"></i>
-            <i class="far fa-star"></i>
-            <i class="far fa-star fa-fade"></i>
-          </div>
 
-          <!-- <div class="p-review">
-            <a href="">3 reviews</a>|<a href="">Add your review</a>
-          </div> -->
-
-          <div class="quantity">
-            <p>Cantidad</p>
-            <div class="pro-qty">
-              <input type="text" value="1" maxLength="1" />
-            </div>
-          </div>
           <a href="/cart" class="btn btn-cshop text-uppercase px-5"
-            ><i class="fas fa-shopping-cart pr-2"></i>Añadir al carrito</a
+            ><i class="fas fa-shopping-cart pr-2"></i>Volver a comprar</a
           >
           <div id="accordion" class="accordion-area">
             <div class="panel">
@@ -159,11 +122,8 @@
 </template>
 
 <script>
-export default {
-  props: ["product"],
-};
+export default {};
 </script>
 
-<style lang="scss">
-@import "../assets/scss/views/details";
+<style>
 </style>

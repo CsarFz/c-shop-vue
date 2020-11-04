@@ -7,22 +7,22 @@
             <div class="card-body">
               <h2 class="card-title text-center">Regístrate</h2>
               <div class="form-group text-center">
-                <p v-if="errors.name.length" class="text-danger">
+                <p v-if="errors.name.length" class="text-danger m-0">
                   {{ errors.name }}
                 </p>
-                <p v-if="errors.lastName.length" class="text-danger">
+                <p v-if="errors.lastName.length" class="text-danger m-0">
                   {{ errors.lastName }}
                 </p>
-                <p v-if="errors.phone.length" class="text-danger">
+                <p v-if="errors.phone.length" class="text-danger m-0">
                   {{ errors.phone }}
                 </p>
-                <p v-if="errors.email.length" class="text-danger">
+                <p v-if="errors.email.length" class="text-danger m-0">
                   {{ errors.email }}
                 </p>
-                <p v-if="errors.password.length" class="text-danger">
+                <p v-if="errors.password.length" class="text-danger m-0">
                   {{ errors.password }}
                 </p>
-                <p v-if="errors.confirmPassword.length" class="text-danger">
+                <p v-if="errors.confirmPassword.length" class="text-danger m-0">
                   {{ errors.confirmPassword }}
                 </p>
               </div>
@@ -32,6 +32,7 @@
                     <input
                       type="text"
                       class="form-control form-control-lg primary-input"
+                      :class="errors.name.length ? 'is-invalid' : ''"
                       name="name"
                       placeholder="Nombre(s)"
                       v-model="name"
@@ -43,6 +44,7 @@
                     <input
                       type="text"
                       class="form-control form-control-lg primary-input"
+                      :class="errors.lastName.length ? 'is-invalid' : ''"
                       name="lastName"
                       placeholder="Apellido(s)"
                       v-model="lastName"
@@ -54,6 +56,8 @@
                     <input
                       type="tel"
                       class="form-control form-control-lg primary-input"
+                      :class="errors.phone.length ? 'is-invalid' : ''"
+                      autocomplete="off"
                       name="phone"
                       placeholder="Teléfono"
                       maxLength="10"
@@ -66,6 +70,7 @@
                     <input
                       type="email"
                       class="form-control form-control-lg primary-input"
+                      :class="errors.email.length ? 'is-invalid' : ''"
                       name="email"
                       placeholder="Correo electrónico"
                       v-model="email"
@@ -77,6 +82,7 @@
                     <input
                       type="password"
                       class="form-control form-control-lg primary-input"
+                      :class="errors.password.length ? 'is-invalid' : ''"
                       name="password"
                       placeholder="Contraseña"
                       v-model="password"
@@ -88,6 +94,7 @@
                     <input
                       type="password"
                       class="form-control form-control-lg primary-input"
+                      :class="errors.confirmPassword.length ? 'is-invalid' : ''"
                       name="confirmPassword"
                       placeholder="Confirmar contraseña"
                       v-model="confirmPassword"
@@ -241,6 +248,7 @@ export default {
                 keepOnHover: true,
                 icon: "check",
               });
+              this.$store.dispatch("setUser", data);
               this.$router.push("/");
             } else {
               this.showToast("Error en el servidor.")
@@ -250,7 +258,7 @@ export default {
             console.log(e);
           });
       } else {
-        this.showToast("Hay campos vacíos.");
+        this.showToast("Hay campos no válidos.");
       }
     },
     showToast(message) {
@@ -278,11 +286,11 @@ export default {
       let validValues;
 
       Object.values(errors).forEach((error) => {
-        error !== "" ? (validErrors = false) : (validErrors = true);
+        error === "" ? (validErrors = true) : (validErrors = false);
       });
 
       Object.values(values).forEach((value) => {
-        value !== "" && value === null
+        value === "" && !value
           ? (validValues = false)
           : (validValues = true);
       });

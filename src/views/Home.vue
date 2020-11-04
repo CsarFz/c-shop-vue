@@ -112,36 +112,8 @@
             role="tabpanel"
             aria-labelledby="pills-xbox-tab"
           >
-            <div class="row justify-content-center">
-              <!-- { products.filter(({category}) => category === 'electronics')
-              .map(({id, title, image, price, category}) => { return ( -->
-              <div class="col-lg-3 col-sm-6" key="{`product-${id}`}">
-                <div class="product-item">
-                  <div class="pi-pic">
-                    <!-- {category === 'electronics' ? -->
-                    <div class="tag-sale">Oferta</div>
-                    <!-- : ''} -->
-                    <router-link to="/products/2">
-                      <img
-                        src="https://dummyimage.com/600x600/000/fff"
-                        class="img-fluid"
-                        height="300"
-                        alt=""
-                      />
-                    </router-link>
-                    <div class="pi-links">
-                      <a href="/#" class="add-card"
-                        ><span class="text-bold">Añadir</span><i class="fas fa-shopping-cart"></i
-                      ></a>
-                    </div>
-                  </div>
-                  <div class="pi-text">
-                    <h6>$ {price}</h6>
-                    <p>{title}</p>
-                  </div>
-                </div>
-              </div>
-              <!-- ) }) } -->
+            <div class="row align-items-center">
+              <ProductCard v-for="product in productsXbox" :key="product.id" :product="product"/>
             </div>
           </div>
           <div
@@ -150,30 +122,8 @@
             role="tabpanel"
             aria-labelledby="pills-ps4-tab"
           >
-            <div class="row justify-content-center">
-              <div class="col-lg-3 col-sm-6">
-                <div class="product-item">
-                  <div class="pi-pic">
-                    <div class="tag-sale">Oferta</div>
-                    <router-link to="/products/2">
-                      <img
-                        src="https://dummyimage.com/600x600/000/fff"
-                        class="img-fluid"
-                        alt=""
-                      />
-                    </router-link>
-                    <div class="pi-links">
-                      <a href="/#" class="add-card"
-                        ><span class="text-bold">Añadir</span><i class="fas fa-shopping-cart"></i
-                      ></a>
-                    </div>
-                  </div>
-                  <div class="pi-text">
-                    <h6>$135.00</h6>
-                    <p>Videojuego</p>
-                  </div>
-                </div>
-              </div>
+            <div class="row align-items-center">
+              <ProductCard v-for="product in productsPS4" :key="product.id" :product="product"/>
             </div>
           </div>
           <div
@@ -196,7 +146,8 @@
                     </router-link>
                     <div class="pi-links">
                       <a href="#" class="add-card"
-                        ><span class="text-bold">Añadir</span><i class="fas fa-shopping-cart"></i
+                        ><span class="text-bold">Añadir</span
+                        ><i class="fas fa-shopping-cart"></i
                       ></a>
                     </div>
                   </div>
@@ -241,6 +192,7 @@ import {
   Autoplay,
 } from "swiper/core";
 import "swiper/swiper-bundle.min.css";
+import ProductCard from "../components/ProductCard"
 
 SwiperClass.use([Pagination, Mousewheel, Autoplay]);
 
@@ -249,6 +201,7 @@ export default {
   components: {
     Swiper,
     SwiperSlide,
+    ProductCard
   },
   data() {
     return {
@@ -271,7 +224,18 @@ export default {
           },
         },
       },
+      productsXbox: [],
+      productsPS4: [],
     };
+  },
+  mounted() {
+    this.$store.dispatch("getProducts");
+    this.productsXbox = this.$store.state.products.filter(
+      ({ category }) => category === "electronics"
+    );
+    this.productsPS4 = this.$store.state.products.filter(
+      ({ category }) => category === "jewelery"
+    );
   },
 };
 </script>

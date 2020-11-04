@@ -28,13 +28,15 @@
               <div class="up-item" v-else>
                 <ul class="main-menu">
                   <li>
-                    <router-link to="/profile"
-                      ><i class="fas fa-user mr-2 fa-lg"></i>
-                      Perfil</router-link
-                    >
+                    <a href="#">
+                      <i class="fas fa-user mr-2 fa-lg"></i> Perfil
+                    </a>
                     <ul class="sub-menu shadow">
                       <li>
                         <router-link to="/profile">Mi perfil</router-link>
+                      </li>
+                      <li>
+                        <router-link to="/orders">Mis compras</router-link>
                       </li>
                       <li>
                         <a href="#" @click.prevent="logout">Cerrar Sesión</a>
@@ -61,9 +63,6 @@
           <li><router-link to="/">Inicio</router-link></li>
           <!-- <li><a href="#">- <span class="new">New</span></a></li> -->
           <li><router-link to="/products">Productos</router-link></li>
-          <li v-if="$store.getters.isLoggedIn">
-            <router-link to="#">Mis compras</router-link>
-          </li>
         </ul>
       </div>
     </nav>
@@ -90,11 +89,6 @@
                 >Productos</router-link
               >
             </div>
-          </div>
-          <div class="nav-item" v-if="$store.getters.isLoggedIn">
-            <router-link to="/contact" class="nav-link"
-              >Mis compras</router-link
-            >
           </div>
         </div>
       </div>

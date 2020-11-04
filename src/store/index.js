@@ -4,42 +4,15 @@ import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex)
 
+import state from './state';
+import * as getters from './getters';
+import * as mutations from './mutations';
+import * as actions from './actions';
+
 export default new Vuex.Store({
-  state: {
-    user: {
-      isLoggedIn: false,
-      data: {
-        username: "",
-      }
-    }
-  },
-  getters: {
-    isLoggedIn: state => {
-      return state.user.isLoggedIn;
-    }
-  },
-  mutations: {
-    SET_LOGGED_IN(state, value) {
-      state.user.isLoggedIn = value;
-    },
-    SET_USER(state, data) {
-      state.user.data = data;
-    }
-  },
-  actions: {
-    setUser({
-      commit
-    }, user) {
-      commit("SET_LOGGED_IN", user !== null);
-      if (user) {
-        commit("SET_USER", {
-          email: user.username,
-        });
-      } else {
-        commit("SET_USER", null);
-      }
-    }
-  },
-  modules: {},
+  state,
+  getters,
+  mutations,
+  actions,
   plugins: [createPersistedState()]
 })
