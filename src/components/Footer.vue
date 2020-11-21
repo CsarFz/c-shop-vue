@@ -6,7 +6,7 @@
           <h2 class="text-white">C-Shop</h2>
         </router-link>
       </div>
-      <div class="row">
+      <!--<div class="row">
         <div class="col-lg-3 col-sm-6">
           <div class="footer-widget about-widget">
             <h2>Acerca de</h2>
@@ -29,7 +29,7 @@
             </ul>
           </div>
         </div>
-        <!-- <div class="col-lg-3 col-sm-6">
+        <div class="col-lg-3 col-sm-6">
                             <div class="footer-widget about-widget">
                                 <h2>Questions</h2>
                                 <div class="fw-latest-post-widget">
@@ -72,8 +72,8 @@
                                     <p>office@youremail.com</p>
                                 </div>
                             </div>
-                        </div>  -->
-      </div>
+                        </div>  
+      </div> -->
     </div>
     <div class="social-links-warp">
       <div class="container">
