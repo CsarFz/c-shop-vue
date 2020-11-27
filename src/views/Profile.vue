@@ -16,9 +16,11 @@
                     alt="gurdeep singh osahan"
                   />
                   <div>
-                    <h6 class="mb-2 font-weight-bold">César Galván</h6>
-                    <p class="mb-1">+91 85680-79956</p>
-                    <p>prrueba@prueba.com</p>
+                    <h6 class="mb-2 font-weight-bold">
+                      {{ name }} {{ lastName }}
+                    </h6>
+                    <p class="mb-1">{{ phone }}</p>
+                    <p>{{ email }}</p>
                   </div>
                 </div>
               </div>
@@ -114,7 +116,7 @@
                             canEdit ? 'form-control' : 'form-control-plaintext'
                           "
                           id="name"
-                          value="César Adrián"
+                          v-model="name"
                         />
                       </div>
                     </div>
@@ -131,7 +133,7 @@
                             canEdit ? 'form-control' : 'form-control-plaintext'
                           "
                           id="surnames"
-                          value="Galván Medrano"
+                          v-model="lastName"
                         />
                       </div>
                     </div>
@@ -150,7 +152,7 @@
                             canEdit ? 'form-control' : 'form-control-plaintext'
                           "
                           id="phone"
-                          value="5512345678"
+                          v-model="phone"
                         />
                       </div>
                     </div>
@@ -167,14 +169,18 @@
                             canEdit ? 'form-control' : 'form-control-plaintext'
                           "
                           id="email"
-                          value="email@example.com"
+                          v-model="email"
                         />
                       </div>
                     </div>
                   </div>
                   <div class="row" v-if="canEdit">
                     <div class="col-sm-12 text-right">
-                      <button type="button" class="btn btn-cshop">
+                      <button
+                        type="button"
+                        class="btn btn-cshop"
+                        @click.prevent="saveProfile"
+                      >
                         Guardar
                       </button>
                     </div>
@@ -477,6 +483,10 @@ export default {
   data() {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return {
+      name: this.$store.state.user.info.name,
+      lastName: this.$store.state.user.info.lastName,
+      phone: this.$store.state.user.info.phone,
+      email: this.$store.state.user.info.username,
       canEdit: false,
       flag: "new",
       items: [
@@ -617,16 +627,69 @@ export default {
   },
   mounted() {
     this.totalRows = this.items.length;
+    this.$store.dispatch("getUser", { username: this.email });
   },
   methods: {
     editProfile() {
       this.canEdit = !this.canEdit;
+      const info = this.$store.state.user.info;
+      if (!this.canEdit) {
+        if (
+          this.name !== info.name ||
+          this.lastName !== info.lastName ||
+          this.phone !== info.phone ||
+          this.email !== info.username
+        ) {
+          this.name = info.name;
+          this.lastName = info.lastName;
+          this.phone = info.phone;
+          this.email = info.username;
+        }
+      }
     },
     editAddress() {
       this.flag = "update";
     },
     addAddress() {
       this.flag = "new";
+    },
+    saveProfile() {
+      if (this.name !== "" && this.lastName && this.phone !== "") {
+        const info = {
+          name: this.name,
+          lastName: this.lastName,
+          phone: this.phone,
+          username: this.$store.state.user.data.username,
+        };
+        this.$store.dispatch("editUser", info);
+        this.canEdit = false;
+      }
+
+      if (this.name === "") {
+        this.showToastError("El nombre está vacío");
+      } else if (this.name.length < 4) {
+        this.showToastError("El nombre debe ser mayor a 3 letras.");
+      }
+
+      if (this.lastName === "") {
+        this.showToastError("Los apellidos están vacíos");
+      } else if (this.lastName.length < 4) {
+        this.showToastError("El campo de apellido debe ser mayor a 3 letras");
+      }
+
+      if (this.phone === "") {
+        this.showToastError("El teléfono está vacío");
+      } else if (this.phone.length < 10 || this.phone.length > 10) {
+        this.showToastError("El campo de teléfono debe ser de  10 dígitos");
+      }
+
+    },
+    showToastError(message) {
+      this.$toasted.error(message, {
+        duration: 3500,
+        keepOnHover: true,
+        icon: "times",
+      });
     }
   },
 };

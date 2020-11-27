@@ -93,6 +93,7 @@
 
     & .quy-col {
         padding-right: 20px;
+        padding-bottom: 20px;
     }
 
     & .quantity {
@@ -114,7 +115,7 @@
 
     & .total-col {
         text-align: center;
-
+        padding-bottom: 20px;
         & h4 {
             font-size: 18px;
             color: $dark-cshop;

@@ -94,16 +94,6 @@
             >
           </li>
         </ul>
-        <!-- <div class="row">
-          <div class="col-12 text-center">
-            <Loader
-              type="RevolvingDot"
-              color="#E9155F"
-              height="{100}"
-              width="{100}"
-            />
-          </div>
-        </div> -->
 
         <div class="tab-content" id="pills-tabContent">
           <div
@@ -113,7 +103,15 @@
             aria-labelledby="pills-xbox-tab"
           >
             <div class="row align-items-center">
-              <ProductCard v-for="product in productsXbox" :key="product.id" :product="product"/>
+              <div class="col-12 text-center" v-if="productsXbox.length == 0">
+                <h3>No hay resultados</h3>
+              </div>
+              <ProductCard
+                v-for="product in productsXbox"
+                :key="product.id"
+                :product="product"
+                v-else
+              />
             </div>
           </div>
           <div
@@ -123,7 +121,15 @@
             aria-labelledby="pills-ps4-tab"
           >
             <div class="row align-items-center">
-              <ProductCard v-for="product in productsPS4" :key="product.id" :product="product"/>
+              <div class="col-12 text-center" v-if="productsPS4.length == 0">
+                <h3>No hay resultados</h3>
+              </div>
+              <ProductCard
+                v-for="product in productsPS4"
+                :key="product.id"
+                :product="product"
+                v-else
+              />
             </div>
           </div>
           <div
@@ -133,30 +139,15 @@
             aria-labelledby="pills-switch-tab"
           >
             <div class="row justify-content-center">
-              <div class="col-lg-3 col-sm-6">
-                <div class="product-item">
-                  <div class="pi-pic">
-                    <div class="tag-sale">Oferta</div>
-                    <router-link to="/products/2">
-                      <img
-                        src="https://dummyimage.com/600x600/000/fff"
-                        class="img-fluid"
-                        alt=""
-                      />
-                    </router-link>
-                    <div class="pi-links">
-                      <a href="#" class="add-card"
-                        ><span class="text-bold">Añadir</span
-                        ><i class="fas fa-shopping-cart"></i
-                      ></a>
-                    </div>
-                  </div>
-                  <div class="pi-text">
-                    <h6>$135.00</h6>
-                    <p>Videojuego</p>
-                  </div>
-                </div>
+              <div class="col-12 text-center" v-if="productsSwitch.length == 0">
+                <h3>No hay resultados</h3>
               </div>
+              <ProductCard
+                v-for="product in productsSwitch"
+                :key="product.id"
+                :product="product"
+                v-else
+              />
             </div>
           </div>
           <div
@@ -166,9 +157,15 @@
             aria-labelledby="pills-pc-tab"
           >
             <div class="row justify-content-center">
-              <div class="col-12 text-center">
+              <div class="col-12 text-center" v-if="productsPC.length == 0">
                 <h3>No hay resultados</h3>
               </div>
+              <ProductCard
+                v-for="product in productsPC"
+                :key="product.id"
+                :product="product"
+                v-else
+              />
             </div>
           </div>
         </div>
@@ -192,7 +189,8 @@ import {
   Autoplay,
 } from "swiper/core";
 import "swiper/swiper-bundle.min.css";
-import ProductCard from "../components/ProductCard"
+import ProductCard from "../components/ProductCard";
+import axios from "axios";
 
 SwiperClass.use([Pagination, Mousewheel, Autoplay]);
 
@@ -201,7 +199,7 @@ export default {
   components: {
     Swiper,
     SwiperSlide,
-    ProductCard
+    ProductCard,
   },
   data() {
     return {
@@ -226,16 +224,40 @@ export default {
       },
       productsXbox: [],
       productsPS4: [],
+      productsSwitch: [],
+      productsPC: [],
     };
   },
   mounted() {
-    this.$store.dispatch("getProducts");
-    this.productsXbox = this.$store.state.products.filter(
-      ({ category }) => category === "electronics"
-    );
-    this.productsPS4 = this.$store.state.products.filter(
-      ({ category }) => category === "jewelery"
-    );
+    axios
+      .post(
+        "https://8rj68a68ml.execute-api.us-east-1.amazonaws.com/default/products"
+      )
+      .then((response) => {
+        const products = response.data;
+
+        this.productsXbox =
+          products !== undefined
+            ? products.filter(({ category }) => category === "xbox")
+            : [];
+        this.productsPS4 =
+          products !== undefined
+            ? products.filter(({ category }) => category === "ps4")
+            : [];
+        this.productsSwitch =
+          products !== undefined
+            ? products.filter(({ category }) => category === "switch")
+            : [];
+        this.productsPC =
+          products !== undefined
+            ? products.filter(({ category }) => category === "pc")
+            : [];
+      });
+
+    const data = this.$store.state.user.data;
+    if (data) {
+      this.$store.dispatch("getCart", { username: data.username });
+    }
   },
 };
 </script>

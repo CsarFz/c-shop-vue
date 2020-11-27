@@ -2,16 +2,16 @@
   <section class="product-section">
     <div class="container">
       <div class="back-link">
-        <router-link to="/products">
-          <i class="fas fa-chevron-left"></i> Regresar</router-link
-        >
+        <router-link to="/">
+          <i class="fas fa-chevron-left"></i> Regresar
+        </router-link>
       </div>
       <div class="row">
         <div class="col-lg-6">
           <div class="product-pic-zoom">
             <img
               class="product-big-img img-fluid border-20 shadow"
-              src="https://picsum.photos/600"
+              :src="product.image"
               alt=""
             />
           </div>
@@ -37,30 +37,38 @@
           </div> -->
         </div>
         <div class="col-lg-6 product-details">
-          <h2 class="p-title">Videojuego</h2>
-          <h3 class="p-price">${{ id }}.00</h3>
-          <h4 class="p-stock">Disponible: <span>En stock</span></h4>
-          <div class="p-rating">
+          <h2 class="p-title">{{ product.name }}</h2>
+          <h3 class="p-price">$ {{ product.price }}</h3>
+          <h4 class="p-stock">
+            Disponible:
+            <span>{{ product.stock > 0 ? "En stock" : "Sin stock" }}</span>
+          </h4>
+          <!-- <div class="p-rating">
             <i class="far fa-star"></i>
             <i class="far fa-star"></i>
             <i class="far fa-star"></i>
             <i class="far fa-star"></i>
             <i class="far fa-star fa-fade"></i>
-          </div>
+          </div> -->
 
           <!-- <div class="p-review">
             <a href="">3 reviews</a>|<a href="">Add your review</a>
           </div> -->
 
-          <div class="quantity">
+          <!-- <div class="quantity">
             <p>Cantidad</p>
             <div class="pro-qty">
-              <input type="text" value="1" maxLength="1" />
+              <input type="text" value="1" v-model="quantity" maxLength="1" />
             </div>
-          </div>
-          <a href="/cart" class="btn btn-cshop text-uppercase px-5"
-            ><i class="fas fa-shopping-cart pr-2"></i>Añadir al carrito</a
+          </div> -->
+          <a
+            href="#"
+            role="button"
+            class="btn btn-cshop text-uppercase px-5 my-5"
+            @click.prevent="addToCart()"
           >
+            <i class="fas fa-shopping-cart pr-2"></i>Añadir al carrito
+          </a>
           <div id="accordion" class="accordion-area">
             <div class="panel">
               <div class="panel-header" id="headingOne">
@@ -82,15 +90,12 @@
               >
                 <div class="panel-body">
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Proin pharetra tempor so dales. Phasellus sagittis auctor
-                    gravida. Integer bibendum sodales arcu id te mpus. Ut
-                    consectetur lacus leo, non scelerisque nulla euismod nec.
+                    {{ product.description }}
                   </p>
                 </div>
               </div>
             </div>
-            <div class="panel">
+            <!-- <div class="panel">
               <div class="panel-header" id="headingTwo">
                 <button
                   class="panel-link"
@@ -117,8 +122,8 @@
                   </p>
                 </div>
               </div>
-            </div>
-            <div class="panel">
+            </div> -->
+            <!-- <div class="panel">
               <div class="panel-header" id="headingThree">
                 <button
                   class="panel-link"
@@ -150,7 +155,7 @@
                   </p>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -160,7 +165,29 @@
 
 <script>
 export default {
-  props: ["product"],
+  props: ["id"],
+  data() {
+    return {
+      quantity: 1,
+    };
+  },
+  computed: {
+    product() {
+      return this.$store.state.product;
+    },
+  },
+  mounted() {
+    this.$store.dispatch("getProduct", this.id);
+  },
+  methods: {
+    addToCart() {
+      this.$store.dispatch("addProductToCart", {
+        product: this.product,
+        username: this.$store.state.user.data.username,
+        quantity: 1,
+      });
+    },
+  },
 };
 </script>
 

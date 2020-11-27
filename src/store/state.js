@@ -3,7 +3,17 @@ export default {
         isLoggedIn: false,
         data: {
             username: "",
+            token: ""
+        },
+        info: {
+            username: "",
+            name: "",
+            lastName: "",
+            phone: ""
         }
     },
-    products: []
+    products: [],
+    product: null,
+    productsSearch: [],
+    cart: []
 }

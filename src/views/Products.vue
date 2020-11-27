@@ -16,34 +16,8 @@
             <div class="filter-widget">
               <h2 class="fw-title">Categorías</h2>
               <ul class="category-menu">
-                <li>
-                  <router-link to="#">PS4</router-link>
-                  <ul class="sub-menu">
-                    <li>
-                      <a href="/">Videojuegos <span>(2)</span></a>
-                    </li>
-                    <li>
-                      <a href="/">Accesorios<span>(6)</span></a>
-                    </li>
-                    <li>
-                      <a href="/">Hardware<span>(3)</span></a>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <router-link to="#">Xbox One</router-link>
-                  <ul class="sub-menu">
-                    <li>
-                      <a href="/">Videojuegos <span>(3)</span></a>
-                    </li>
-                    <li>
-                      <a href="/">Accesorios<span>(8)</span></a>
-                    </li>
-                    <li>
-                      <a href="/">Hardware<span>(3)</span></a>
-                    </li>
-                  </ul>
-                </li>
+                <li><router-link to="#">PS4</router-link></li>
+                <li><router-link to="#">Xbox One</router-link></li>
                 <li><router-link to="#">Computación</router-link></li>
               </ul>
             </div>

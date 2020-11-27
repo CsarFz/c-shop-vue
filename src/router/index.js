@@ -12,6 +12,7 @@ import ShoppingCart from "../views/ShoppingCart.vue";
 import Checkout from "../views/Checkout.vue";
 import Orders from "../views/Orders.vue";
 import OrderDetails from "../components/OrderDetails.vue";
+import Search from "../views/Search.vue";
 import NotFound from "../views/NotFound.vue";
 
 Vue.use(VueRouter)
@@ -69,7 +70,9 @@ const routes = [{
   },
   {
     path: "/checkout",
+    name: "checkout",
     component: Checkout,
+    props: true,
     meta: {
       auth: true
     }
@@ -85,6 +88,12 @@ const routes = [{
     path: "/orders/:id",
     name: "order",
     component: OrderDetails,
+    props: true
+  },
+  {
+    path: "/search",
+    name: "search",
+    component: Search,
     props: true
   },
   {

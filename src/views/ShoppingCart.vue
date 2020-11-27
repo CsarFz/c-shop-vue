@@ -15,41 +15,55 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
+                  <tr v-for="item in cart" :key="item.product.id">
                     <td class="product-col">
-                      <img
-                        src="https://picsum.photos/id/237/200"
-                        class="img-fluid border-20"
-                        alt=""
-                      />
+                      <img :src="item.product.image" class="rounded" alt="" />
                       <div class="pc-title">
-                        <h4>Videojuego</h4>
-                        <p>$135.00</p>
+                        <h4>{{ item.product.name }}</h4>
                       </div>
                     </td>
                     <td class="quy-col">
                       <div class="quantity">
-                        <div class="pro-qty">
-                          <input type="text" value="1" />
+                        <div class="pro-qty text-center align-items-center">
+                          <span>{{ item.quantity }}</span>
                         </div>
                       </div>
                     </td>
-                    <td class="total-col"><h4>$135.00</h4></td>
+                    <td class="total-col">
+                      <h4>${{ item.product.price }}</h4>
+                    </td>
+                    <td class="total-col pl-4">
+                      <a
+                        role="button"
+                        href="#"
+                        @click.prevent="removeProduct(item.product)"
+                      >
+                        <i class="far fa-trash-alt text-primary-cshop"></i>
+                      </a>
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <div class="total-cost">
-              <h6>Total <span>$135.00</span></h6>
+              <h6>
+                Total <span>${{ total }}</span>
+              </h6>
             </div>
           </div>
         </div>
         <div class="col-lg-4 card-right">
-          <form class="promo-code-form mt-3 mt-lg-0">
+          <!-- <form class="promo-code-form mt-3 mt-lg-0">
             <input type="text" placeholder="Enter promo code" />
             <button type="submit" class="text-bold">Enviar</button>
-          </form>
-          <router-link to="/checkout" class="btn btn-cshop">Realizar compra</router-link>
+          </form> -->
+          <router-link
+            :to="{ name: 'checkout', params: { cart: cart, total: total } }"
+            class="btn btn-cshop"
+            v-if="total !== 0"
+          >
+            Realizar compra
+          </router-link>
           <router-link to="/products" class="btn btn-continue btn-cshop"
             >Continuar comprando</router-link
           >
@@ -60,7 +74,25 @@
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    cart() {
+      return this.$store.state.cart;
+    },
+    total() {
+      return this.$store.getters.cartTotalPrice;
+    },
+  },
+  mounted() {
+    const username = this.$store.state.user.data.username;
+    this.$store.dispatch("getCart", { username: username });
+  },
+  methods: {
+    removeProduct(product) {
+      this.$store.dispatch("removeProduct", product);
+    },
+  },
+};
 </script>
 
 <style lang="scss">

@@ -124,7 +124,6 @@
 
 <script>
 import axios from "axios";
-
 import Modal from "../components/Modal";
 
 export default {
@@ -140,13 +139,23 @@ export default {
     };
   },
   methods: {
-    login() {
+    async login() {
       const data = {
         username: this.email,
         password: this.password,
       };
+      const tokenToEncode = { username: data.username };
 
       if (this.formValid()) {
+        await axios
+          .post(
+            "https://8rj68a68ml.execute-api.us-east-1.amazonaws.com/default/token",
+            tokenToEncode
+          )
+          .then((response) => {
+            data.token = response.data.token;
+          });
+
         axios
           .post(
             "https://8rj68a68ml.execute-api.us-east-1.amazonaws.com/default/login",
@@ -160,6 +169,7 @@ export default {
                 icon: "check",
               });
               this.$store.dispatch("setUser", data);
+              this.$store.dispatch("getUser", { username: this.email });
               this.$router.push("/");
             } else {
               this.errors = [];

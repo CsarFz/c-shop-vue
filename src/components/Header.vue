@@ -14,8 +14,11 @@
                 type="text"
                 placeholder="Buscar..."
                 class="primary-input"
+                v-model="query"
               />
-              <button><i class="fas fa-search fa-xs"></i></button>
+              <button @click.prevent="search">
+                <i class="fas fa-search fa-xs"></i>
+              </button>
             </form>
           </div>
           <div class="col-xl-4 col-lg-5">
@@ -48,7 +51,7 @@
               <div class="up-item">
                 <div class="shopping-card">
                   <i class="fas fa-shopping-cart fa-lg"></i>
-                  <span>0</span>
+                  <span>{{ cartCountItem }}</span>
                 </div>
                 <router-link to="/cart" class="ml-2">Carrito</router-link>
               </div>
@@ -62,7 +65,7 @@
         <ul class="main-menu">
           <li><router-link to="/">Inicio</router-link></li>
           <!-- <li><a href="#">- <span class="new">New</span></a></li> -->
-          <li><router-link to="/products">Productos</router-link></li>
+          <!-- <li><router-link to="/products">Productos</router-link></li> -->
         </ul>
       </div>
     </nav>
@@ -83,13 +86,13 @@
           <div class="nav-item">
             <router-link to="/" class="nav-link">Inicio</router-link>
           </div>
-          <div class="nav-item">
+          <!-- <div class="nav-item">
             <div class="navbar-nav">
               <router-link to="/products" class="nav-link"
                 >Productos</router-link
               >
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </nav>
@@ -99,10 +102,29 @@
 <script>
 export default {
   name: "Header",
+  data() {
+    return {
+      query: null,
+    };
+  },
+  computed: {
+    cartCountItem() {
+      return this.$store.getters.cartCountItem;
+    },
+  },
   methods: {
     logout() {
       this.$store.dispatch("setUser", null);
+      this.$store.dispatch("setCart", null);
       this.$router.push("/").catch(() => {});
+    },
+    async search() {
+      try {
+        await this.$store.dispatch("searchProducts", { query: this.query });
+        this.$router.push(`/search/?q=${this.query}`).catch(() => {});
+      } catch (e) {
+        console.log(e);
+      }
     },
   },
 };
