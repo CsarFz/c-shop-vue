@@ -10,7 +10,8 @@ export default {
             name: "",
             lastName: "",
             phone: ""
-        }
+        },
+        addresses: []
     },
     products: [],
     product: null,

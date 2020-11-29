@@ -1,4 +1,5 @@
 import functions from '../api/functions';
+import swal from 'sweetalert';
 
 export const getProduct = ({
     commit
@@ -48,34 +49,19 @@ export const getCart = ({
         username
     }).then(response => {
         const data = response.data;
-        let ids = [];
-
-        data.forEach(product => {
-            ids.push(product.id)
-        });
-        ids = [...new Set(ids)];
 
         let arr = [];
-        ids.forEach(id => {
-            let obj = {
-                quantity: 0
-            };
-            data.forEach((item, idx) => {
-                if (id === item.id) {
-                    obj.product = {
-                        id: item.id,
-                        image: item.image,
-                        name: item.name,
-                        price: item.price,
-                        id_cart: item.id_cart
-                    };
-                    obj.quantity++;
-                }
-
-                if (idx === data.length - 1) {
-                    arr.push(obj)
-                }
-            });
+        data.forEach((item) => {
+            arr.push({
+                product: {
+                    id: item.id,
+                    image: item.image,
+                    name: item.name,
+                    price: item.price,
+                    id_cart: item.id_cart,
+                },
+                quantity: item.quantity
+            })
         });
 
         commit("SET_CART", arr)
@@ -133,14 +119,37 @@ export const editUser = ({
     functions.editUser(info).then(response => {
         const success = response.data.success;
         const info = response.data;
-        console.log(response);
-        if (success === "true") {
+
+        if (success) {
+            swal("¡Éxito!", "Se editaron los datos con éxito.", "success");
             commit("SET_USER_INFO", {
                 name: info.name,
                 lastName: info.lastName,
                 username: info.email,
                 phone: info.phone
             });
+        } else {
+            swal("Error", "Hubo un error al editar los datos del usuario.", "error");
+        }
+    });
+}
+
+export const checkout = ({
+    commit
+}, {
+    cart,
+    address
+}) => {
+    commit("SET_CART", []);
+    functions.checkout(cart);
+    functions.addAddress(address);
+}
+
+export const addAddress = (address) => {
+    functions.addAddress(address).then(response => {
+        const success = response.data.success;
+        if (success) {
+            swal("¡Éxito!", "Se añadió con éxito la dirección.", "success");
         }
     });
 }

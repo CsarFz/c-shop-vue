@@ -30,7 +30,15 @@
                       </div>
                     </td>
                     <td class="total-col">
-                      <h4>${{ item.product.price }}</h4>
+                      <h4>
+                        {{
+                          `${new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "USD",
+                            minimumFractionDigits: 2,
+                          }).format(item.product.price)}`
+                        }}
+                      </h4>
                     </td>
                     <td class="total-col pl-4">
                       <a
@@ -47,7 +55,14 @@
             </div>
             <div class="total-cost">
               <h6>
-                Total <span>${{ total }}</span>
+                Total
+                <span>{{
+                  `${new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                    minimumFractionDigits: 2,
+                  }).format(total)}`
+                }}</span>
               </h6>
             </div>
           </div>
@@ -64,9 +79,9 @@
           >
             Realizar compra
           </router-link>
-          <router-link to="/products" class="btn btn-continue btn-cshop"
-            >Continuar comprando</router-link
-          >
+          <router-link to="/" class="btn btn-continue btn-cshop">
+            Continuar comprando
+          </router-link>
         </div>
       </div>
     </div>

@@ -43,17 +43,6 @@
             Disponible:
             <span>{{ product.stock > 0 ? "En stock" : "Sin stock" }}</span>
           </h4>
-          <!-- <div class="p-rating">
-            <i class="far fa-star"></i>
-            <i class="far fa-star"></i>
-            <i class="far fa-star"></i>
-            <i class="far fa-star"></i>
-            <i class="far fa-star fa-fade"></i>
-          </div> -->
-
-          <!-- <div class="p-review">
-            <a href="">3 reviews</a>|<a href="">Add your review</a>
-          </div> -->
 
           <!-- <div class="quantity">
             <p>Cantidad</p>

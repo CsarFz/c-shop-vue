@@ -371,7 +371,7 @@
         <div class="modal-body">
           <form>
             <div class="form-row">
-              <div class="form-group col-12 col-md-6">
+              <div class="form-group col-12">
                 <label>País</label>
                 <select
                   class="form-control"
@@ -386,6 +386,10 @@
               <div class="form-group col-12 col-md-6">
                 <label>Ciudad</label>
                 <input type="text" class="form-control" placeholder="Ciudad" />
+              </div>
+              <div class="form-group col-12 col-md-6">
+                <label>Colonia</label>
+                <input type="text" class="form-control" placeholder="Colonia" />
               </div>
               <div class="form-group col-md-6">
                 <label class="control-label">Código Postal</label>
@@ -406,7 +410,7 @@
                   id="street"
                   type="text"
                   class="form-control"
-                  placeholder="Dirección e.g. número de casa, calle, colonia"
+                  placeholder="Dirección e.g. número de casa, calle."
                 />
               </div>
               <div class="form-group col-md-12">

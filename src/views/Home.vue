@@ -1,35 +1,11 @@
 <template>
   <div class="home">
     <a href="/#" id="backToTop" class="shadow-lg"> </a>
-    <section class="hero-section">
-      <swiper id="main" :options="swiperOption">
-        <swiper-slide>
-          <img
-            src="https://picsum.photos/1920/200"
-            class="mw-100 mx-auto d-flex"
-            height="200"
-            alt="Slide"
-          />
-        </swiper-slide>
-        <swiper-slide>
-          <img
-            src="https://picsum.photos/1920/200"
-            class="mw-100 mx-auto d-flex"
-            height="200"
-            alt="Slide"
-          />
-        </swiper-slide>
-        <div
-          class="swiper-pagination swiper-pagination-bullets"
-          slot="pagination"
-        ></div>
-      </swiper>
-    </section>
 
-    <section class="product-filter-section" id="products">
+    <section class="product-filter-section py-5" id="products">
       <div class="container">
         <div class="section-title text-center">
-          <h2>PRODUCTOS</h2>
+          <h2>PRODUCTOS C-SHOP</h2>
         </div>
 
         <!-- <ul class="product-filter-menu text-center">
@@ -181,26 +157,12 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
-import { Swiper, SwiperSlide } from "vue-awesome-swiper";
-import {
-  Swiper as SwiperClass,
-  Pagination,
-  Mousewheel,
-  Autoplay,
-} from "swiper/core";
-import "swiper/swiper-bundle.min.css";
 import ProductCard from "../components/ProductCard";
 import axios from "axios";
 
-SwiperClass.use([Pagination, Mousewheel, Autoplay]);
-
 export default {
   name: "Home",
-  components: {
-    Swiper,
-    SwiperSlide,
-    ProductCard,
-  },
+  components: { ProductCard },
   data() {
     return {
       swiperOption: {

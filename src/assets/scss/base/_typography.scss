@@ -76,3 +76,12 @@ p {
 #profileForm label {
   font-size: 16px;
 }
+
+.three-lines {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  height: 65px;
+}

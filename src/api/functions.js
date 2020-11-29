@@ -22,6 +22,12 @@ export default {
         return api.post("getcart", username);
     },
     removeProductFromCart(id_cart) {
-        return api.post("remove", id_cart)
+        return api.post("remove", id_cart);
+    },
+    checkout(cart) {
+        return api.post("checkout", cart);
+    },
+    addAddress(address) {
+        return api.post("add-address", address);
     }
 }

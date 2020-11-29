@@ -14,7 +14,15 @@
         </div>
       </div>
       <div class="pi-text">
-        <h6>${{ product.price }}</h6>
+        <h6>
+          {{
+            `${new Intl.NumberFormat("en-US", {
+              style: "currency",
+              currency: "USD",
+              minimumFractionDigits: 2,
+            }).format(product.price)}`
+          }}
+        </h6>
         <p>{{ product.name }}</p>
       </div>
     </div>
@@ -29,10 +37,10 @@ export default {
       this.$store.dispatch("addProductToCart", {
         product: this.product,
         username: this.$store.state.user.data.username,
-        quantity: 1
+        quantity: 1,
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

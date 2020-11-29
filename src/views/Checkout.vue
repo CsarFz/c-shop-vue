@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 order-2 order-lg-1 mt-3 mt-md-0">
-          <form class="checkout-form">
+          <div class="checkout-form">
             <div class="cf-title">Dirección de envío</div>
             <div class="row">
               <div class="col-md-7">
@@ -12,34 +12,71 @@
               <div class="col-md-5">
                 <div class="cf-radio-btns address-rb">
                   <div class="cfr-item">
-                    <input type="radio" name="pm" id="one" />
-                    <label for="one">Usa mi dirección habitual</label>
+                    <input
+                      type="radio"
+                      name="pm"
+                      id="one"
+                      @change="showAddressCards"
+                    />
+                    <label for="one">Usar una dirección guardada</label>
                   </div>
                   <div class="cfr-item">
-                    <input type="radio" name="pm" id="two" />
-                    <label for="two">Usa una dirección diferente</label>
+                    <input
+                      type="radio"
+                      name="pm"
+                      id="two"
+                      @change="showFormAddress"
+                    />
+                    <label for="two">Usar una dirección diferente</label>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="row address-inputs">
+            <div class="row address-inputs" v-if="showForm">
+              <div class="col-12 text-center">
+                <p v-if="errors.length">
+                  <ul class="list-unstyled">
+                    <li :key="index" v-for="(error, index) in errors" class="text-danger">{{ error }}</li>
+                  </ul>
+                </p>
+              </div>
               <div class="col-md-12">
                 <input
                   type="text"
-                  placeholder="Dirección"
+                  placeholder="Dirección e.g. número de casa, calle."
+                  v-model="address"
                   class="primary-input"
                 />
-                <input
-                  type="text"
-                  placeholder="Dirección 2"
-                  class="primary-input"
-                />
-                <input type="text" placeholder="País" class="primary-input" />
+                <select
+                  class="form-control primary-input mb-3"
+                  aria-hidden="true"
+                  v-model="country"
+                >
+                  <option value="">Seleccionar país</option>
+                  <option value="MX" selected>México</option>
+                </select>
               </div>
               <div class="col-md-6">
                 <input
                   type="text"
-                  placeholder="Número exterior"
+                  placeholder="Estado"
+                  v-model="state"
+                  class="primary-input"
+                />
+              </div>
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  placeholder="Ciudad"
+                  v-model="city"
+                  class="primary-input"
+                />
+              </div>
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  placeholder="Colonia"
+                  v-model="suburb"
                   class="primary-input"
                 />
               </div>
@@ -47,12 +84,33 @@
                 <input
                   type="text"
                   placeholder="Código Postal"
+                  v-model="zipCode"
+                  class="primary-input"
+                />
+              </div>
+              <div class="col-md-12">
+                <input
+                  type="text"
+                  placeholder="Instrucciones de entrega"
+                  v-model="instructions"
                   class="primary-input"
                 />
               </div>
             </div>
+            <div class="row address-inputs" v-if="showAddresses">
+              <div class="col-12 text-center">
+                <h3>No tiene ninguna dirección guardada.</h3>
+              </div>
+            </div>
             <div class="cf-title">Información de entrega</div>
             <div class="row shipping-btns mx-auto">
+              <div class="col-12 text-center">
+                <p v-if="errorsDelivery.length">
+                  <ul class="list-unstyled">
+                    <li :key="index" v-for="(error, index) in errorsDelivery" class="text-danger">{{ error }}</li>
+                  </ul>
+                </p>
+              </div>
               <div class="col-6">
                 <h4>Estándar (3 a 4 días)</h4>
               </div>
@@ -102,12 +160,13 @@
               <li>Paga cuando recibas el paquete</li>
             </ul>
             <button
-              @click.prevent="checkout"
+            v-if="cart.length"
+              v-b-modal.checkout
               class="btn site-btn-animated submit-order-btn text-bold"
             >
               Realizar pedido
             </button>
-          </form>
+          </div>
         </div>
         <div class="col-lg-4 order-1 order-lg-2">
           <div class="checkout-cart">
@@ -115,7 +174,7 @@
             <ul class="product-list">
               <li v-for="item in cart" :key="item.product.id">
                 <div class="pl-thumb">
-                  <img :src="item.product.image" height="100" alt="" />
+                  <img :src="item.product.image" height="150" alt="" />
                 </div>
                 <h6>{{ item.product.name }}</h6>
                 <p>$ {{ item.product.price }}</p>
@@ -123,19 +182,86 @@
             </ul>
             <ul class="price-list">
               <li>
-                Total<span>$ {{ total }}</span>
+                Subtotal<span>$ {{ total }}</span>
               </li>
               <li v-if="picked !== ''">
-                Envío<span>{{ picked != "0" && picked != "" ? `$${picked}.00` : "Gratis"}}</span>
+                Envío<span>{{
+                  picked != "0" && picked != "" ? `$${picked}.00` : "Gratis"
+                }}</span>
               </li>
               <li class="total" v-if="picked !== ''">
-                Total<span>$ {{ picked != "0" && picked != "" ? total + parseInt(picked) : total }}</span>
+                Total<span
+                  >$
+                  {{
+                    picked != "0" && picked != ""
+                      ? total + parseInt(picked)
+                      : total
+                  }}</span
+                >
               </li>
             </ul>
           </div>
         </div>
       </div>
     </div>
+
+    <b-modal
+      id="checkout"
+      centered
+      hide-header
+      hide-footer
+      no-close-on-backdrop
+      no-close-on-esc
+    >
+      <div class="p-4">
+        <div class="row text-center">
+          <div class="col-12">
+            <h3>Checkout</h3>
+            <p>¿Está seguro de realizar la compra?</p>
+          </div>
+          <div class="col-12">
+            <button
+              id="payment"
+              class="btn btn-cshop my-2 px-4 mr-0 mr-sm-3"
+              type="submit"
+              @click.prevent="checkout()"
+            >
+              Comprar
+            </button>
+            <button class="btn btn-danger" ref="btnHide" @click="hideModal">
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+    </b-modal>
+
+    <b-modal
+      ref="success"
+      centered
+      hide-header
+      hide-footer
+      no-close-on-backdrop
+      no-close-on-esc
+    >
+      <div class="p-4">
+        <div class="row text-center justify-content-center">
+          <div class="col-12">
+            <h3>¡Compra exitosa!</h3>
+            <p>Gracias por comprar en C-Shop.</p>
+          </div>
+          <div class="col-6">
+            <router-link
+              id="success"
+              class="btn btn-cshop my-2 px-4 mr-0 mr-sm-3"
+              to="/orders"
+            >
+              Aceptar
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </b-modal>
   </section>
 </template>
 
@@ -143,7 +269,19 @@
 export default {
   data() {
     return {
-      picked: ""
+      errors: [],
+      errorsDelivery: [],
+      picked: "",
+      showForm: false,
+      showAddresses: false,
+      addressSelected: null,
+      country: "",
+      state: null,
+      city: null,
+      address: null,
+      suburb: null,
+      zipCode: null,
+      instructions: null,
     };
   },
   computed: {
@@ -160,10 +298,126 @@ export default {
   },
   methods: {
     checkout() {
-      console.log("picked:", isNaN(parseInt(this.picked)));
-      console.log(this.total + parseInt(this.picked));
-    }
-  }
+      const cart = {
+        products: this.cart,
+        total: this.total + parseInt(this.picked),
+        username: this.$store.state.user.data.username,
+        date_purchase: new Date().valueOf()
+      };
+      const address = {
+        address: this.address,
+        country: this.country,
+        state: this.state,
+        city: this.city,
+        suburb: this.suburb,
+        zipCode: this.zipCode,
+        instructions: this.instructions,
+        nickname: "home",
+      };
+
+      if (this.showForm) {
+        if (this.checkForm()) {
+          this.$store.dispatch("checkout", { cart, address });
+          this.showModal();
+          this.hideModal();
+        } else {
+          this.showToastError("Hay errores en el formulario.");
+          this.hideModal();
+        }
+      } else if (this.showAddresses) {
+        if (this.addressSelected) {
+          console.log("Dirección guardada");
+        } else {
+          this.showToastError("Seleccione una dirección guardada.");
+          this.hideModal();
+        }
+      } else {
+        this.showToastError("Elija una opción de dirección de entrega.");
+        this.hideModal();
+      }
+    },
+    showFormAddress() {
+      this.showForm = true;
+      this.showAddresses = false;
+    },
+    showAddressCards() {
+      this.showAddresses = true;
+      this.showForm = false;
+    },
+    showModal() {
+      this.$refs["success"].show();
+    },
+    hideModal() {
+      this.$root.$emit("bv::hide::modal", "checkout", "#btnHide");
+    },
+    zipCodeValidation(zipCode) {
+      const re = /^\d{5}[-\s]?(?:\d{4})?$/gm;
+      return re.test(zipCode);
+    },
+    showToastError(message) {
+      this.$toasted.error(message, {
+        duration: 5000,
+        keepOnHover: true,
+        icon: "times",
+      });
+    },
+    checkForm() {
+      this.errors = [];
+      this.errorsDelivery = [];
+
+      if (!this.address) {
+        this.errors.push("La dirección de calle es requerida.");
+      } else if (this.address.length < 10) {
+        this.errors.push("La dirección debe contener más de 10 caracteres.");
+      }
+
+      if (!this.city) {
+        this.errors.push("La ciudad es requerida.");
+      } else if (this.city.length < 5) {
+        this.errors.push("La ciudad debe contener más de 5 caracteres.");
+      }
+
+      if (!this.state) {
+        this.errors.push("El estado es requerido.");
+      } else if (this.state.length < 5) {
+        this.errors.push("El estado debe contener más de 5 caracteres.");
+      }
+
+      if (this.country === "") {
+        this.errors.push("El país es requerido.");
+      }
+
+      if (!this.suburb) {
+        this.errors.push("La colonia es requerida.");
+      } else if (this.suburb.length < 5) {
+        this.errors.push("La colonia debe contener más de 5 caracteres.");
+      }
+
+      if (!this.zipCode) {
+        this.errors.push("El código postal es requerido.");
+      } else if (this.zipCode.length < 5) {
+        this.errors.push("El código postal debe de ser de 5 números.");
+      } else if (!this.zipCodeValidation(this.zipCode)) {
+        this.errors.push("El código postal es incorrecto.");
+      }
+
+      if (!this.instructions) {
+        this.errors.push("Las instrucciones son requeridas.");
+      } else if (this.instructions.length < 10) {
+        this.errors.push(
+          "Las instrucciones deben contener más de 10 caracteres."
+        );
+      }
+
+      if (isNaN(parseInt(this.picked))) {
+        this.errorsDelivery.push("Elija una opción de entrega.");
+      }
+
+      if (!this.errors.length && !this.errorsDelivery.length) {
+        return true;
+      }
+    },
+  },
 };
 </script>
 
