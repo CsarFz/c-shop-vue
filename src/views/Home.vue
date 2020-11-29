@@ -190,8 +190,8 @@ export default {
       productsPC: [],
     };
   },
-  mounted() {
-    axios
+  async beforeCreate() {
+    await axios
       .post(
         "https://8rj68a68ml.execute-api.us-east-1.amazonaws.com/default/products"
       )

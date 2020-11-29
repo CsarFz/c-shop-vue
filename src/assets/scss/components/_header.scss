@@ -7,25 +7,24 @@
 
     &-search-form {
         width: 100%;
-        position: relative;
         padding: 0 10px;
 
-        & input {
-            width: 100%;
-            border: none;
-            padding: 0 19px;
-        }
-
-        & button {
-            position: absolute;
+        & a {
+            border-radius: 30px;
             height: 100%;
+            width: 100%;
             right: 18px;
             top: 0;
             font-size: 26px;
             color: $black-cshop;
-            border: none;
+            border: 1px solid $grey-25-cshop;
             cursor: pointer;
-            background-color: transparent;
+            background-color: $grey-cshop;
+
+            &:hover {
+                background-color: $white-cshop;
+                border: 1px solid $primary-cshop;
+            }
         }
     }
 }
@@ -38,6 +37,7 @@
     @include breakpoint('xs') {
         text-align: center;
     }
+
     @include breakpoint('lg') {
         text-align: left;
     }

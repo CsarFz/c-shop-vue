@@ -182,7 +182,13 @@
             </ul>
             <ul class="price-list">
               <li>
-                Subtotal<span>$ {{ total }}</span>
+                Subtotal<span>{{
+                      `${new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                        minimumFractionDigits: 2,
+                      }).format(total)}`
+                    }}</span>
               </li>
               <li v-if="picked !== ''">
                 Envío<span>{{
@@ -191,11 +197,19 @@
               </li>
               <li class="total" v-if="picked !== ''">
                 Total<span
-                  >$
+                  >
                   {{
                     picked != "0" && picked != ""
-                      ? total + parseInt(picked)
-                      : total
+                      ? `${new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                        minimumFractionDigits: 2,
+                      }).format(total + parseInt(picked))}` 
+                      : `${new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                        minimumFractionDigits: 2,
+                      }).format(total)}`
                   }}</span
                 >
               </li>
@@ -302,7 +316,7 @@ export default {
         products: this.cart,
         total: this.total + parseInt(this.picked),
         username: this.$store.state.user.data.username,
-        date_purchase: new Date().valueOf()
+        date_purchase: new Date().valueOf(),
       };
       const address = {
         address: this.address,
@@ -313,6 +327,7 @@ export default {
         zipCode: this.zipCode,
         instructions: this.instructions,
         nickname: "home",
+        username: this.$store.state.user.data.username,
       };
 
       if (this.showForm) {

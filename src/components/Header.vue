@@ -9,17 +9,11 @@
             </router-link>
           </div>
           <div class="col-xl-6 col-lg-5">
-            <form class="header-search-form">
-              <input
-                type="text"
-                placeholder="Buscar..."
-                class="primary-input"
-                v-model="query"
-              />
-              <button @click.prevent="search">
-                <i class="fas fa-search fa-xs"></i>
-              </button>
-            </form>
+            <div class="header-search-form d-flex justify-content-center">
+              <!-- <router-link to="/search" class="btn">
+                Ir a buscar productos <i class="fas fa-search fa-xs"></i>
+              </router-link> -->
+            </div>
           </div>
           <div class="col-xl-4 col-lg-5">
             <div class="user-panel">
@@ -64,6 +58,11 @@
       <div class="container">
         <ul class="main-menu">
           <li><router-link to="/">Inicio</router-link></li>
+          <li>
+            <router-link to="/search">
+              Buscar productos <i class="fas fa-search fa-xs"></i>
+            </router-link>
+          </li>
           <!-- <li><a href="#">- <span class="new">New</span></a></li> -->
           <!-- <li><router-link to="/products">Productos</router-link></li> -->
         </ul>
@@ -85,6 +84,9 @@
         <div class="mr-auto d-block navbar-nav">
           <div class="nav-item">
             <router-link to="/" class="nav-link">Inicio</router-link>
+            <router-link to="/search" class="nav-link">
+              Buscar productos <i class="fas fa-search fa-xs"></i>
+            </router-link>
           </div>
           <!-- <div class="nav-item">
             <div class="navbar-nav">
@@ -118,9 +120,8 @@ export default {
       this.$store.dispatch("setCart", null);
       this.$router.push("/").catch(() => {});
     },
-    async search() {
+    search() {
       try {
-        await this.$store.dispatch("searchProducts", { query: this.query });
         this.$router.push(`/search/?q=${this.query}`).catch(() => {});
       } catch (e) {
         console.log(e);

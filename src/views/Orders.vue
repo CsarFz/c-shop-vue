@@ -63,7 +63,7 @@
         </div>
       </div>
       <div class="row" v-else>
-        <div class="col-12">
+        <div class="col-12 text-center">
           <h2>No tiene ninguna compra hecha en C-Shop</h2>
         </div>
       </div>
@@ -94,17 +94,16 @@ export default {
       ],
     };
   },
-  beforeCreate() {
+  async beforeCreate() {
     const username = this.$store.state.user.data.username;
 
-    axios
+    await axios
       .post(
         "https://8rj68a68ml.execute-api.us-east-1.amazonaws.com/default/gethistory",
         { username: username }
       )
       .then((response) => {
         this.orders = response.data;
-        console.log(this.orders);
       });
   },
 };

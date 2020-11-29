@@ -18,7 +18,15 @@
         </div>
         <div class="col-lg-6 product-details">
           <h2 class="p-title">{{ product.name }}</h2>
-          <h3 class="p-price">$ {{ product.price }}</h3>
+          <h3 class="p-price">
+            {{
+              `${new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+                minimumFractionDigits: 2,
+              }).format(product.price)}`
+            }}
+          </h3>
           <h4 class="p-stock">
             Disponible:
             <span>{{ product.stock > 0 ? "En stock" : "Sin stock" }}</span>
@@ -48,7 +56,7 @@
               >
                 <div class="panel-body">
                   <p>
-                   {{product.description }}
+                    {{ product.description }}
                   </p>
                 </div>
               </div>
