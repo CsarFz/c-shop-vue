@@ -85,6 +85,7 @@ export default {
   },
   methods: {
     async login() {
+      await this.$store.dispatch("setLoadingStatus", true);
       const data = {
         username: this.email,
         password: this.password,
@@ -109,11 +110,8 @@ export default {
           .then((response) => {
             const success = response.data.success;
             if (success) {
-              this.$toasted.success("Ha iniciado sesión", {
-                duration: 3000,
-                keepOnHover: true,
-                icon: "check",
-              });
+              this.$store.dispatch("setLoadingStatus", false);
+              this.$swal("¡Éxito!", "Ha iniciado sesión. ¡Disfrute C-Shop!", "success");
               this.$store.dispatch("setUser", data);
               this.$store.dispatch("getUser", { username: this.email });
               this.$router.push("/");

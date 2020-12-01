@@ -115,8 +115,8 @@ export default {
     },
   },
   methods: {
-    logout() {
-      this.$store.dispatch("logout", { token: this.$store.getters.token });
+    async logout() {
+      await this.$store.dispatch("logout", { token: this.$store.getters.token });
       this.$router.push("/").catch(() => {});
     },
     search() {

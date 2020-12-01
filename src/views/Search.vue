@@ -72,6 +72,7 @@ export default {
     };
   },
   async beforeCreate() {
+    await this.$store.dispatch("setLoadingStatus", true);
     const token = this.$store.getters.token;
 
     await axios
@@ -83,14 +84,17 @@ export default {
         const data = response.data;
         if (data.code === "403") {
           this.permission = false;
+          this.$store.dispatch("setLoadingStatus", false);
         } else {
           this.products = data;
           this.permission = true;
+          this.$store.dispatch("setLoadingStatus", false);
         }
       });
   },
   methods: {
     async search() {
+      await this.$store.dispatch("setLoadingStatus", true);
       const query_ = this.query.trim();
       const token = this.$store.getters.token;
 
@@ -103,9 +107,11 @@ export default {
           const data = response.data;
           if (data.code === "403") {
             this.permission = false;
+            this.$store.dispatch("setLoadingStatus", false);
           } else {
             this.products = data;
             this.permission = true;
+            this.$store.dispatch("setLoadingStatus", false);
           }
         });
     },

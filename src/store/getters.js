@@ -19,3 +19,7 @@ export const cartTotalPrice = (state) => {
 export const token = (state) => {
     return state.user.data.token;
 }
+
+export const loading = (state) => {
+    return state.loading;
+}
