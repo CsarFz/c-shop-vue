@@ -21,13 +21,16 @@ export default {
     getCartUser(username) {
         return api.post("getcart", username);
     },
-    removeProductFromCart(id_cart) {
-        return api.post("remove", id_cart);
+    removeProductFromCart({id_cart, token}) {
+        return api.post("remove", { id_cart, token });
     },
     checkout(cart) {
         return api.post("checkout", cart);
     },
     addAddress(address) {
         return api.post("add-address", address);
-    }
+    },
+    logout(token) {
+        return api.post("logout", token);
+    },
 }

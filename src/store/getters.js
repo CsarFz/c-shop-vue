@@ -15,3 +15,7 @@ export const cartTotalPrice = (state) => {
 
     return total;
 }
+
+export const token = (state) => {
+    return state.user.data.token;
+}

@@ -7,10 +7,12 @@ import {
   IconsPlugin
 } from 'bootstrap-vue'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import Toasted from "vue-toasted";
+import Toasted from "vue-toasted"
+import VueSwal from 'vue-swal'
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+Vue.use(VueSwal)
 Vue.use(Toasted, {
   iconPack: 'fontawesome'
 })

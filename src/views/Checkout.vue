@@ -97,8 +97,39 @@
                 />
               </div>
             </div>
-            <div class="row address-inputs" v-if="showAddresses">
-              <div class="col-12 text-center">
+            <div class="row addresses-inputs" v-if="showAddresses">
+              <div class="col-12" v-if="addresses.length">
+                <div class="row">
+                  <div class="col-md-6" v-for="item in addresses" :key="item.id">
+                    <div class="bg-white card addresses-item mb-3 shadow-sm">
+                      <input type="radio" :name="`radio-${item.id}`" :value="item" v-model="addressSelected" :id="`radio-${item.id}`" class="d-none">
+                      <label class="m-0" :for="`radio-${item.id}`">
+                        <div class="gold-members p-4">
+                          <div class="media">
+                            <div class="mr-4">
+                              <i class="icofont-ui-home icofont-3x"></i>
+                            </div>
+                            <div class="media-body">
+                              <span class="badge badge-danger"> Default - {{ item.nickname }} </span>
+                              <h6 class="mb-3 mt-1 text-dark">{{ item.address }}</h6>
+                              <p class="text-secondary m-0">
+                                Ciudad: <span class="text-dark">{{ item.city }}</span>
+                              </p>
+                              <p class="text-secondary m-0">
+                                Colonia: <span class="text-dark">{{ item.suburb }}</span>
+                              </p>
+                              <p class="text-secondary">
+                                Código Postal: <span class="text-dark">{{ item.zipCode }}</span>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 text-center" v-else>
                 <h3>No tiene ninguna dirección guardada.</h3>
               </div>
             </div>
@@ -280,11 +311,14 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
       errors: [],
       errorsDelivery: [],
+      addresses: [],
       picked: "",
       showForm: false,
       showAddresses: false,
@@ -306,9 +340,18 @@ export default {
       return this.$store.getters.cartTotalPrice;
     },
   },
-  mounted() {
+  async mounted() {
     const username = this.$store.state.user.data.username;
-    this.$store.dispatch("getCart", { username: username });
+    await this.$store.dispatch("getCart", { username: username });
+
+    await axios
+      .post(
+        "https://8rj68a68ml.execute-api.us-east-1.amazonaws.com/default/getaddress",
+        { username }
+      )
+      .then((response) => {
+        this.addresses = response.data;
+      });
   },
   methods: {
     checkout() {
@@ -341,7 +384,9 @@ export default {
         }
       } else if (this.showAddresses) {
         if (this.addressSelected) {
-          console.log("Dirección guardada");
+          this.$store.dispatch("checkoutUser",  cart);
+          this.showModal();
+          this.hideModal();
         } else {
           this.showToastError("Seleccione una dirección guardada.");
           this.hideModal();

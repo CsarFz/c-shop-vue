@@ -13,6 +13,7 @@ import Checkout from "../views/Checkout.vue";
 import Orders from "../views/Orders.vue";
 import OrderDetails from "../components/OrderDetails.vue";
 import Search from "../views/Search.vue";
+import ChangePassword from "../views/ChangePassword.vue";
 import NotFound from "../views/NotFound.vue";
 
 Vue.use(VueRouter)
@@ -95,6 +96,14 @@ const routes = [{
     name: "search",
     component: Search,
     props: true
+  },
+  {
+    path: "/change-password",
+    name: "changePassword",
+    component: ChangePassword,
+    meta: {
+      guest: true
+    }
   },
   {
     path: '/404',

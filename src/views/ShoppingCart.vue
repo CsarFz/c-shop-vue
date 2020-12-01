@@ -104,7 +104,9 @@ export default {
   },
   methods: {
     removeProduct(product) {
-      this.$store.dispatch("removeProduct", product);
+      const token = this.$store.getters.token;
+
+      this.$store.dispatch("removeProduct", { product, token });
     },
   },
 };

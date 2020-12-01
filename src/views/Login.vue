@@ -48,14 +48,12 @@
               <div class="row">
                 <div class="col-md-12 text-center text-muted">
                   <p>
-                    <a
-                      href="#"
+                    <router-link
+                      to="/change-password"
                       class="link-cShop"
-                      data-toggle="modal"
-                      data-backdrop="static"
-                      data-target="#passwordForget"
-                      >¿Olvidaste tu contraseña?</a
                     >
+                    ¿Olvidaste tu contraseña?
+                    </router-link>
                   </p>
                   <p class="px-4">
                     ¿No tienes una cuenta C-Shop?
@@ -70,67 +68,14 @@
         </div>
       </div>
     </div>
-
-    <!-- Modal -->
-    <Modal
-      :header="false"
-      :footer="false"
-      id="passwordForget"
-      data-backdrop="static"
-      data-keyboard="false"
-    >
-      <template></template>
-      <template>
-        <div class="modal-body p-5">
-          <h4 class="text-center mb-3">Recuperar contraseña</h4>
-          <div class="row text-center">
-            <div class="col-12">
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor
-                sequi maiores repudiandae error vitae tempore rem aliquam ab?
-                Qui itaque eaque doloremque nemo consequuntur voluptatum,
-                delectus deserunt fugit sint nam.
-              </p>
-            </div>
-            <div class="col-12">
-              <input
-                type="email"
-                class="form-control form-control-lg primary-input"
-                id="emailPassword"
-                placeholder="Correo electrónico"
-              />
-            </div>
-            <div class="col-12 mt-3">
-              <div class="row">
-                <div class="col-12 col-md-6 mb-3">
-                  <button class="btn btn-cshop w-100 mw-100" type="submit">
-                    Enviar
-                  </button>
-                </div>
-                <div class="col-12 col-md-6">
-                  <button class="btn btn-danger w-100" data-dismiss="modal">
-                    Cancelar
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </template>
-      <template></template>
-    </Modal>
   </section>
 </template>
 
 <script>
 import axios from "axios";
-import Modal from "../components/Modal";
 
 export default {
   name: "Login",
-  components: {
-    Modal: Modal,
-  },
   data() {
     return {
       errors: [],
@@ -162,7 +107,8 @@ export default {
             data
           )
           .then((response) => {
-            if (response.data.response === "success") {
+            const success = response.data.success;
+            if (success) {
               this.$toasted.success("Ha iniciado sesión", {
                 duration: 3000,
                 keepOnHover: true,

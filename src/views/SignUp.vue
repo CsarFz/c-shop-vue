@@ -7,98 +7,79 @@
             <div class="card-body">
               <h2 class="card-title text-center">Regístrate</h2>
               <div class="form-group text-center">
-                <p v-if="errors.name.length" class="text-danger m-0">
-                  {{ errors.name }}
-                </p>
-                <p v-if="errors.lastName.length" class="text-danger m-0">
-                  {{ errors.lastName }}
-                </p>
-                <p v-if="errors.phone.length" class="text-danger m-0">
-                  {{ errors.phone }}
-                </p>
-                <p v-if="errors.email.length" class="text-danger m-0">
-                  {{ errors.email }}
-                </p>
-                <p v-if="errors.password.length" class="text-danger m-0">
-                  {{ errors.password }}
-                </p>
-                <p v-if="errors.confirmPassword.length" class="text-danger m-0">
-                  {{ errors.confirmPassword }}
+                <p v-if="errors.length">
+                  <ul class="list-unstyled">
+                    <li :key="index" v-for="(error, index) in errors" class="text-danger">{{ error }}</li>
+                  </ul>
                 </p>
               </div>
               <form class="px-lg-5 px-2 mt-4">
                 <div class="row">
                   <div class="col-12 col-md-4 px-lg-3 pb-3">
                     <input
+                      id="name"
                       type="text"
                       class="form-control form-control-lg primary-input"
-                      :class="errors.name.length ? 'is-invalid' : ''"
                       name="name"
                       placeholder="Nombre(s)"
                       v-model="name"
-                      @keyup="handleChange"
                       required
                     />
                   </div>
                   <div class="col-12 col-md-8 px-lg-3 pb-3">
                     <input
+                      id="lastName"
                       type="text"
                       class="form-control form-control-lg primary-input"
-                      :class="errors.lastName.length ? 'is-invalid' : ''"
                       name="lastName"
                       placeholder="Apellido(s)"
                       v-model="lastName"
-                      @keyup="handleChange"
                       required
                     />
                   </div>
                   <div class="col-12 col-md-6 px-lg-3 pb-3">
                     <input
+                      id="phone"
                       type="tel"
                       class="form-control form-control-lg primary-input"
-                      :class="errors.phone.length ? 'is-invalid' : ''"
                       autocomplete="off"
                       name="phone"
                       placeholder="Teléfono"
                       maxLength="10"
                       v-model="phone"
-                      @keyup="handleChange"
                       required
                     />
                   </div>
                   <div class="col-12 col-md-6 px-lg-3 pb-3">
                     <input
+                      id="email"
                       type="email"
                       class="form-control form-control-lg primary-input"
-                      :class="errors.email.length ? 'is-invalid' : ''"
                       name="email"
-                      placeholder="Correo electrónico"
+                      placeholder="Usuario (correo electrónico)"
                       v-model="email"
-                      @keyup="handleChange"
                       required
                     />
                   </div>
                   <div class="col-12 col-md-6 px-lg-3 pb-3">
                     <input
+                      id="password"
                       type="password"
                       class="form-control form-control-lg primary-input"
-                      :class="errors.password.length ? 'is-invalid' : ''"
                       name="password"
                       placeholder="Contraseña"
                       v-model="password"
-                      @keyup="handleChange"
                       required
                     />
                   </div>
                   <div class="col-12 col-md-6 px-lg-3 pb-3">
                     <input
+                      id="confirmPassword"
                       type="password"
                       class="form-control form-control-lg primary-input"
-                      :class="errors.confirmPassword.length ? 'is-invalid' : ''"
                       name="confirmPassword"
                       placeholder="Confirmar contraseña"
                       v-model="confirmPassword"
-                      @keyup="handleChange"
                       required
                     />
                   </div>
@@ -163,15 +144,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      errors: {
-        name: "",
-        lastName: "",
-        motherLastName: "",
-        phone: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      },
+      errors: [],
       name: null,
       lastName: null,
       phone: null,
@@ -181,51 +154,7 @@ export default {
     };
   },
   methods: {
-    handleChange(e) {
-      e.preventDefault();
-      const { name, value } = e.target;
-
-      switch (name) {
-        case "name":
-          this.errors.name =
-            value.length < 5 ? "Mínimo 5 caracteres requeridos." : "";
-          break;
-        case "lastName":
-          this.errors.lastName =
-            value.length < 5 ? "Mínimo 5 caracteres requeridos" : "";
-          break;
-        case "phone":
-          this.errors.phone = !this.validPhone(value)
-            ? "El teléfono es invalido, debe tener 10 caracteres y ser numérico."
-            : "";
-          break;
-        case "email":
-          this.errors.email = !this.validEmail(value)
-            ? "El correo electrónico debe ser válido."
-            : "";
-          break;
-        case "password":
-          this.errors.password = !this.validPassword(value)
-            ? "La contraseña debe tener entre 8 y 15 caracteres que contengan al menos una letra minúscula, una letra mayúscula, un dígito numérico y un carácter especial."
-            : "";
-          break;
-        case "confirmPassword":
-          this.errors.confirmPassword =
-            this.password !== value ? "La contraseña no coincide." : "";
-          break;
-        default:
-          break;
-      }
-    },
     signUp() {
-      const values = {
-        name: this.name,
-        lastName: this.lastName,
-        phone: this.phone,
-        email: this.email,
-        password: this.password,
-        confirmPassword: this.confirmPassword,
-      };
       const data = {
         username: this.email,
         name: this.name,
@@ -235,30 +164,35 @@ export default {
         password: this.password,
       };
 
-      if (this.formValid(this.errors, values)) {
+      if (this.formValid()) {
         axios
           .post(
             "https://e7wcxdtzba.execute-api.us-east-1.amazonaws.com/default/register",
             data
           )
           .then((response) => {
-            if (response.data.result == "success") {
+            const data = response.data;
+
+            if (data.success) {
               this.$toasted.success("Su cuenta ha sido creada exitosamente.", {
                 duration: 3000,
                 keepOnHover: true,
                 icon: "check",
               });
-              this.$store.dispatch("setUser", data);
+              // this.$store.dispatch("setUser", data);
+              document.getElementById("email").classList.remove("is-invalid");
+              document.getElementById("email").classList.add("is-valid");
               this.$router.push("/");
+            } else if (data.code === "auth/email-already-in-use") {
+              this.errors.push(data.message);
+              document.getElementById("email").classList.add("is-invalid");
             } else {
-              this.showToast("Error en el servidor.")
+              this.showToast("Error en el servidor.");
             }
           })
           .catch((e) => {
             console.log(e);
           });
-      } else {
-        this.showToast("Hay campos no válidos.");
       }
     },
     showToast(message) {
@@ -281,24 +215,83 @@ export default {
       const re = /^[\+]?[(]?[0-9]{2}[)]?[-\s\.]?[0-9]{4}[-\s\.]?[0-9]{4}$/i; // eslint-disable-line
       return re.test(phone);
     },
-    formValid(errors, values) {
-      let validErrors;
-      let validValues;
+    formValid() {
+      this.errors = [];
 
-      Object.values(errors).forEach((error) => {
-        error === "" ? (validErrors = true) : (validErrors = false);
-      });
-
-      Object.values(values).forEach((value) => {
-        value === "" && !value
-          ? (validValues = false)
-          : (validValues = true);
-      });
-
-      if (validErrors && validValues) {
-        return true;
+      if (!this.name) {
+        this.errors.push("El nombre es requerido.");
+        document.getElementById("name").classList.add("is-invalid");
+      } else if (this.name.length < 5) {
+        this.errors.push("El nombre debe de tener mínimo 5 caracteres.");
+        document.getElementById("name").classList.add("is-invalid");
       } else {
-        return;
+         document.getElementById("name").classList.remove("is-invalid");
+         document.getElementById("name").classList.add("is-valid");
+      }
+
+      if (!this.lastName) {
+        this.errors.push("Los apellidos son requeridos.");
+        document.getElementById("lastName").classList.add("is-invalid");
+      } else if (this.lastName.length < 5) {
+        this.errors.push("Los apellidos deben de tener mínimo 5 caracteres.");
+        document.getElementById("lastName").classList.add("is-invalid");
+      } else {
+        document.getElementById("lastName").classList.remove("is-invalid");
+        document.getElementById("lastName").classList.add("is-valid");
+      }
+
+      if (!this.phone) {
+        this.errors.push("El teléfono es requerido.");
+        document.getElementById("phone").classList.add("is-invalid");
+      } else if (!this.validPhone(this.phone)) {
+        this.errors.push(
+          "El teléfono es inválido, debe tener 10 caracteres y ser numérico."
+        );
+        document.getElementById("phone").classList.add("is-invalid");
+      } else {
+        document.getElementById("phone").classList.remove("is-invalid");
+        document.getElementById("phone").classList.add("is-valid");
+      }
+
+      if (!this.email) {
+        this.errors.push("El correo electrónico es requerido.");
+        document.getElementById("email").classList.add("is-invalid");
+      } else if (!this.validEmail(this.email)) {
+        this.errors.push(
+          "El correo electrónico es inválido, debe ser ejemplo@ejemplo.com"
+        );
+        document.getElementById("email").classList.add("is-invalid");
+      } else {
+        document.getElementById("email").classList.remove("is-invalid");
+        document.getElementById("email").classList.add("is-valid");
+      }
+
+      if (!this.password) {
+        this.errors.push("La contraseña es requerida.");
+        document.getElementById("password").classList.add("is-invalid");
+      } else if (!this.validPassword(this.password)) {
+        this.errors.push(
+          "La contraseña debe tener entre 8 y 15 caracteres que contengan al menos una letra minúscula, una letra mayúscula, un dígito numérico y un carácter especial."
+        );
+        document.getElementById("password").classList.add("is-invalid");
+      } else {
+        document.getElementById("password").classList.remove("is-invalid");
+        document.getElementById("password").classList.add("is-valid");
+      }
+
+      if (!this.confirmPassword) {
+        this.errors.push("La confirmación de contraseña es requerida.");
+        document.getElementById("confirmPassword").classList.add("is-invalid");
+      } else if (this.confirmPassword != this.password) {
+        this.errors.push("Las contraseñas no coinciden.");
+        document.getElementById("confirmPassword").classList.add("is-invalid");
+      } else {
+        document.getElementById("confirmPassword").classList.remove("is-invalid");
+        document.getElementById("confirmPassword").classList.add("is-valid");
+      }
+
+      if (!this.errors.length) {
+        return true;
       }
     },
   },

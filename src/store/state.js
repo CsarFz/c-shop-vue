@@ -15,6 +15,6 @@ export default {
     },
     products: [],
     product: null,
-    productsSearch: [],
-    cart: []
+    cart: [],
+    loading: true
 }

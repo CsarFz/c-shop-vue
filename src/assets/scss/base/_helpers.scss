@@ -1,0 +1,12 @@
+.gold-members {
+    cursor: pointer;
+    &:hover {
+        border: 1px solid $primary-cshop;
+    }
+}
+
+.addresses-inputs {
+    & input[type="radio"]:checked + label {
+        border: 1px solid $primary-cshop;
+    }
+}

@@ -116,8 +116,7 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.dispatch("setUser", null);
-      this.$store.dispatch("setCart", null);
+      this.$store.dispatch("logout", { token: this.$store.getters.token });
       this.$router.push("/").catch(() => {});
     },
     search() {

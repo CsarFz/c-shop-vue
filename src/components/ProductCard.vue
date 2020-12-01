@@ -6,7 +6,7 @@
         <router-link :to="{ name: 'product', params: { id: product.id } }">
           <img :src="product.image" class="mw-100" alt="" height="200" />
         </router-link>
-        <div class="pi-links" v-if="$store.getters.isLoggedIn">
+        <div class="pi-links">
           <a href="#" role="button" @click.prevent="addToCart" class="add-card">
             <span class="text-bold">Añadir</span>
             <i class="fas fa-shopping-cart"></i>
@@ -38,6 +38,7 @@ export default {
         product: this.product,
         username: this.$store.state.user.data.username,
         quantity: 1,
+        token: this.$store.getters.token
       });
     },
   },

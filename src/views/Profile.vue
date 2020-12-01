@@ -186,6 +186,61 @@
                     </div>
                   </div>
                 </form>
+                <div class="row">
+                  <div class="col-12">
+                    <h4 class="card-title float-left text-uppercase">
+                      Cambiar contraseña
+                    </h4>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group text-center">
+                      <p v-if="errors.length">
+                        <ul class="list-unstyled">
+                          <li :key="index" v-for="(error, index) in errors" class="text-danger">{{ error }}</li>
+                        </ul>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="text-bold text-primary-cshop">
+                        Nueva contraseña
+                      </label>
+                      <input
+                        type="password"
+                        name="name"
+                        class="form-control"
+                        id="name"
+                        v-model="password"
+                        placeholder="Nueva contraseña"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label class="text-bold text-primary-cshop">
+                        Confirmar contraseña
+                      </label>
+                      <input
+                        type="password"
+                        name="name"
+                        class="form-control"
+                        id="name"
+                        v-model="confirmPassword"
+                        placeholder="Confirmar contraseña"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-12 text-right">
+                    <button
+                      type="button"
+                      class="btn btn-cshop"
+                      v-b-modal.change-password
+                    >
+                      Cambiar contraseña
+                    </button>
+                  </div>
+                </div>
               </div>
 
               <div
@@ -194,71 +249,7 @@
                 role="tabpanel"
                 aria-labelledby="my-address-tab"
               >
-                <h4 class="text-uppercase mt-0 mb-4">Dirección</h4>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="bg-white card addresses-item mb-3 shadow-sm">
-                      <div class="gold-members p-4">
-                        <div class="media">
-                          <div class="mr-4">
-                            <i class="icofont-ui-home icofont-3x"></i>
-                          </div>
-                          <div class="media-body">
-                            <span class="badge badge-danger">
-                              Default - Home
-                            </span>
-                            <h6 class="mb-3 mt-1 text-dark">Gurdeep Singh</h6>
-                            <p>
-                              Delhi Bypass Rd GK mall Near, Jawaddi Taksal,
-                              Ludhiana, Punjab 141002, India
-                            </p>
-                            <p class="text-secondary">
-                              Phone: <span class="text-dark">8872306061</span>
-                            </p>
-                            <hr />
-                            <p class="mb-0 text-black">
-                              <a
-                                class="text-success mr-3"
-                                data-toggle="modal"
-                                data-target="#add-address"
-                                href="#"
-                                @click.prevent="editAddress"
-                              >
-                                <i class="fas fa-pencil-alt"></i> EDITAR
-                              </a>
-                              <a
-                                class="text-danger"
-                                data-toggle="modal"
-                                data-target="#delete-address-modal"
-                                href="#"
-                              >
-                                <i class="far fa-trash-alt"></i> ELIMINAR
-                              </a>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6 pb-4">
-                    <a
-                      class="add-address"
-                      data-toggle="modal"
-                      data-target="#add-address"
-                      href="#"
-                      @click.prevent="addAddress"
-                    >
-                      <div
-                        class="bg-light border rounded mb-3 shadow-sm text-center h-100 d-flex align-items-center"
-                      >
-                        <h6 class="text-center m-0 w-100">
-                          <i class="fas fa-plus-circle fa-5x"></i>
-                          <br /><br />Añadir nueva dirección
-                        </h6>
-                      </div>
-                    </a>
-                  </div>
-                </div>
+                <MyAddress />
               </div>
 
               <div
@@ -267,370 +258,67 @@
                 role="tabpanel"
                 aria-labelledby="order-list-tab"
               >
-                <h4 class="text-uppercase mt-0 mb-4">Pedidos</h4>
-                <div class="order-list-tabel-main table-responsive">
-                  <div
-                    class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer"
-                  >
-                    <div class="row">
-                      <div class="col-sm-12 col-md-6"></div>
-                      <div class="col-sm-12 col-md-6 mb-3">
-                        <div class="text-right">
-                          <b-form-input
-                            v-model="filter"
-                            type="search"
-                            id="filterInput"
-                            placeholder="Buscar..."
-                            class="primary-input"
-                          ></b-form-input>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-12">
-                        <b-table
-                          show-empty
-                          small
-                          stacked="md"
-                          head-variant="dark"
-                          :bordered="true"
-                          :striped="true"
-                          :borderless="false"
-                          :items="items"
-                          :fields="fields"
-                          :current-page="currentPage"
-                          :per-page="perPage"
-                          :filter="filter"
-                          :sort-by.sync="sortBy"
-                          :sort-desc.sync="sortDesc"
-                          :sort-direction="sortDirection"
-                        >
-                          <template #cell(status)="row">
-                            <span v-html="row.value"></span>
-                          </template>
-
-                          <template #cell(actions)="">
-                            <router-link to="/orders/1" class="btn btn-info">
-                              <i class="far fa-eye"></i>
-                            </router-link>
-                          </template>
-                        </b-table>
-                      </div>
-                    </div>
-                    <div class="row justify-content-center">
-                      <!-- <div class="col-sm-12 col-md-5">
-                        <div
-                          class="dataTables_info"
-                          id="DataTables_Table_0_info"
-                          role="status"
-                          aria-live="polite"
-                        >
-                          Showing 1 to 10 of 12 entries
-                        </div>
-                      </div> -->
-                      <div class="col-6">
-                        <b-pagination
-                          v-model="currentPage"
-                          :total-rows="totalRows"
-                          :per-page="perPage"
-                          align="fill"
-                          size="sm"
-                          class="my-0"
-                        ></b-pagination>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <MyOrders />
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <Modal
-      :header="true"
-      :footer="true"
-      id="add-address"
-      data-backdrop="static"
-      data-keyboard="false"
+
+     <b-modal
+      id="change-password"
+      centered
+      hide-header
+      hide-footer
+      no-close-on-backdrop
+      no-close-on-esc
     >
-      <template slot="header">
-        <h5 class="m-0">
-          {{ flag === "new" ? "Añadir nueva dirección" : "Editar dirección" }}
-        </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </template>
-      <template>
-        <div class="modal-body">
-          <form>
-            <div class="form-row">
-              <div class="form-group col-12">
-                <label>País</label>
-                <select
-                  class="form-control"
-                  tabindex="-1"
-                  aria-hidden="true"
-                  disabled
-                >
-                  <option value="">Seleccionar país</option>
-                  <option value="MX" selected>México</option>
-                </select>
-              </div>
-              <div class="form-group col-12 col-md-6">
-                <label>Ciudad</label>
-                <input type="text" class="form-control" placeholder="Ciudad" />
-              </div>
-              <div class="form-group col-12 col-md-6">
-                <label>Colonia</label>
-                <input type="text" class="form-control" placeholder="Colonia" />
-              </div>
-              <div class="form-group col-md-6">
-                <label class="control-label">Código Postal</label>
-                <input
-                  class="form-control"
-                  placeholder="Código Postal"
-                  type="text"
-                  maxlength="5"
-                />
-              </div>
-              <div class="form-group col-md-6">
-                <label>Estado</label>
-                <input type="text" class="form-control" placeholder="Estado" />
-              </div>
-              <div class="form-group col-md-12">
-                <label for="street">Dirección </label>
-                <input
-                  id="street"
-                  type="text"
-                  class="form-control"
-                  placeholder="Dirección e.g. número de casa, calle."
-                />
-              </div>
-              <div class="form-group col-md-12">
-                <label for="delivery">Instrucciones de entrega </label>
-                <input
-                  id="delivery"
-                  type="text"
-                  class="form-control"
-                  placeholder="Instrucciones de entrega e.g. Frente al centro comercial"
-                />
-              </div>
-              <div class="form-group mb-0 col-md-12">
-                <label for="inputPassword4">Nickname </label>
-                <div
-                  class="btn-group btn-group-toggle d-flex justify-content-center"
-                  data-toggle="buttons"
-                >
-                  <label class="btn btn-info active">
-                    <input
-                      type="radio"
-                      name="options"
-                      id="option1"
-                      autocomplete="off"
-                      checked=""
-                    />
-                    Casa
-                  </label>
-                  <label class="btn btn-info">
-                    <input
-                      type="radio"
-                      name="options"
-                      id="option2"
-                      autocomplete="off"
-                    />
-                    Trabajo
-                  </label>
-                  <label class="btn btn-info">
-                    <input
-                      type="radio"
-                      name="options"
-                      id="option3"
-                      autocomplete="off"
-                    />
-                    Otro
-                  </label>
-                </div>
-              </div>
-            </div>
-          </form>
+      <div class="p-4">
+        <div class="row text-center">
+          <div class="col-12">
+            <h3>Cambiar contraseña</h3>
+            <p>¿Está seguro de cambiar la constraseña?</p>
+          </div>
+          <div class="col-12">
+            <button
+              id="change"
+              class="btn btn-cshop my-2 px-4 mr-0 mr-sm-3"
+              type="submit"
+              @click.prevent="changePassword"
+            >
+              Cambiar
+            </button>
+            <button class="btn btn-danger" ref="btnHide" @click="hideModal">
+              Cancelar
+            </button>
+          </div>
         </div>
-      </template>
-      <template slot="footer">
-        <button
-          v-if="flag === 'new'"
-          type="submit"
-          class="btn btn-cshop"
-          data-dismiss="modal"
-        >
-          Añadir
-        </button>
-        <button v-else type="submit" class="btn btn-cshop" data-dismiss="modal">
-          Editar
-        </button>
-      </template>
-    </Modal>
+      </div>
+    </b-modal>
   </section>
 </template>
 
 <script>
-import Modal from "../components/Modal";
+import MyAddress from "../components/Profile/MyAddress";
+import MyOrders from "../components/Profile/MyOrders";
+import axios from "axios";
 
 export default {
-  components: { Modal },
+  components: { MyAddress, MyOrders },
   data() {
-    const options = { year: "numeric", month: "long", day: "numeric" };
     return {
+      errors: [],
       name: this.$store.state.user.info.name,
       lastName: this.$store.state.user.info.lastName,
       phone: this.$store.state.user.info.phone,
       email: this.$store.state.user.info.username,
       canEdit: false,
-      flag: "new",
-      items: [
-        {
-          status: true,
-          total: new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 2,
-          }).format(40),
-          date: new Date(2020, 2, 12).toLocaleDateString(undefined, options),
-        },
-        {
-          status: false,
-          total: new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 2,
-          }).format(21),
-          date: new Date(2020, 2, 26).toLocaleDateString(undefined, options),
-        },
-        {
-          status: false,
-          total: new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 2,
-          }).format(9),
-          date: new Date(2020, 6, 1).toLocaleDateString(undefined, options),
-        },
-        {
-          status: false,
-          total: new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 2,
-          }).format(89),
-          date: new Date(2020, 6, 12).toLocaleDateString(undefined, options),
-        },
-        {
-          status: true,
-          total: new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 2,
-          }).format(38),
-          date: new Date(2020, 5, 30).toLocaleDateString(undefined, options),
-        },
-        {
-          status: false,
-          total: new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 2,
-          }).format(27),
-          date: new Date(2020, 7, 13).toLocaleDateString(undefined, options),
-        },
-        {
-          status: true,
-          total: new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 2,
-          }).format(40),
-          date: new Date(2020, 7, 16).toLocaleDateString(undefined, options),
-        },
-        {
-          status: true,
-          total: new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 2,
-          }).format(87),
-          date: new Date(2020, 4, 12).toLocaleDateString(undefined, options),
-        },
-        {
-          status: false,
-          total: new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 2,
-          }).format(26),
-          date: new Date(2020, 1, 5).toLocaleDateString(undefined, options),
-        },
-        {
-          status: false,
-          total: new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 2,
-          }).format(22),
-          date: new Date(2020, 9, 1).toLocaleDateString(undefined, options),
-        },
-      ],
-      fields: [
-        {
-          key: "id",
-          label: "Orden",
-          sortable: true,
-          sortDirection: "desc",
-          class: "text-center",
-        },
-        {
-          key: "date",
-          label: "Fecha",
-          class: "text-center",
-        },
-        {
-          key: "status",
-          label: "Estatus",
-          formatter: (value) => {
-            return value
-              ? '<span class="badge badge-success">Entregado</span>'
-              : '<span class="badge badge-warning">Retrasado</span>';
-          },
-          sortable: true,
-          sortByFormatted: true,
-          filterByFormatted: true,
-          class: "text-center",
-        },
-        {
-          key: "total",
-          label: "Total",
-          sortable: true,
-          class: "text-center",
-        },
-        { key: "actions", label: "Detalle", class: "text-center" },
-      ],
-      totalRows: 1,
-      currentPage: 1,
-      perPage: 5,
-      pageOptions: [5, 10, 15],
-      sortBy: "",
-      sortDesc: false,
-      sortDirection: "asc",
-      filter: null,
+      password: null,
+      confirmPassword: null,
     };
   },
   mounted() {
-    this.totalRows = this.items.length;
     this.$store.dispatch("getUser", { username: this.email });
   },
   methods: {
@@ -651,12 +339,6 @@ export default {
         }
       }
     },
-    editAddress() {
-      this.flag = "update";
-    },
-    addAddress() {
-      this.flag = "new";
-    },
     saveProfile() {
       if (this.name !== "" && this.lastName && this.phone !== "") {
         const info = {
@@ -664,6 +346,7 @@ export default {
           lastName: this.lastName,
           phone: this.phone,
           username: this.$store.state.user.data.username,
+          token: this.$store.getters.token,
         };
         this.$store.dispatch("editUser", info);
         this.canEdit = false;
@@ -686,7 +369,6 @@ export default {
       } else if (this.phone.length < 10 || this.phone.length > 10) {
         this.showToastError("El campo de teléfono debe ser de  10 dígitos");
       }
-
     },
     showToastError(message) {
       this.$toasted.error(message, {
@@ -694,7 +376,61 @@ export default {
         keepOnHover: true,
         icon: "times",
       });
-    }
+    },
+    async changePassword() {
+      const data = {
+        username: this.email,
+        password: this.password,
+      };
+
+      if (this.formValid()) {
+        await axios
+          .post(
+            "https://8rj68a68ml.execute-api.us-east-1.amazonaws.com/default/changepassword",
+            data
+          )
+          .then((response) => {
+            const data = response.data;
+
+            if (data.success) {
+              this.$swal(
+                "¡Éxito!",
+                "Su contraseña se ha cambiado correctamente",
+                "success"
+              );
+              this.password = null;
+              this.confirmPassword = null;
+              this.hideModal();
+            } else {
+              this.$swal("Error", data.message, "error");
+              this.hideModal();
+            }
+          });
+      }
+    },
+    formValid() {
+      this.errors = [];
+
+      if (!this.password) {
+        this.errors.push("La contraseña es requerida.");
+        this.hideModal();
+      }
+
+      if (!this.confirmPassword) {
+        this.errors.push("La confirmación de contraseña es requerida.");
+        this.hideModal();
+      } else if (this.confirmPassword !== this.password) {
+        this.errors.push("Las contraseñas no coinciden.");
+        this.hideModal();
+      }
+
+      if (!this.errors.length) {
+        return true;
+      }
+    },
+    hideModal() {
+      this.$root.$emit("bv::hide::modal", "change-password", "#btnHide");
+    },
   },
 };
 </script>

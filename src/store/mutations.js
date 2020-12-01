@@ -10,12 +10,12 @@ export const SET_USER_INFO = (state, info) => {
     state.user.info = info;
 }
 
-export const SET_PRODUCT = (state, product) => {
-    state.product = product;
+export const SET_LOADING = (state, data) => {
+    state.loading = data;
 }
 
-export const SET_PRODUCTS_SEARCH = (state, productsSearch) => {
-    state.productsSearch = productsSearch;
+export const SET_PRODUCT = (state, product) => {
+    state.product = product;
 }
 
 export const ADD_TO_CART = (state, {
@@ -45,4 +45,8 @@ export const REMOVE_PRODUCT_FROM_CART = (state, product) => {
     state.cart = state.cart.filter(item => {
         return item.product.id !== product.id;
     });
+}
+
+export const SET_ADDRESSES = (state, addresses) => {
+    state.user.addresses = addresses;
 }

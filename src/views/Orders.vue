@@ -1,7 +1,12 @@
 <template>
   <section>
     <div class="container my-5 py-5">
-      <div class="row justify-content-center" v-if="orders">
+      <div class="back-link">
+        <router-link to="/">
+          <i class="fas fa-chevron-left"></i> Regresar
+        </router-link>
+      </div>
+      <div class="row justify-content-center" v-if="orders.length">
         <div
           class="col-12 col-md-6"
           v-for="item in orders"
@@ -62,8 +67,8 @@
           </div>
         </div>
       </div>
-      <div class="row" v-else>
-        <div class="col-12 text-center">
+      <div class="row py-5" v-else>
+        <div class="col-12 text-center py-5">
           <h2>No tiene ninguna compra hecha en C-Shop</h2>
         </div>
       </div>
@@ -77,7 +82,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      orders: null,
+      orders: [],
       months: [
         "Enero",
         "Febrero",
@@ -95,12 +100,12 @@ export default {
     };
   },
   async beforeCreate() {
-    const username = this.$store.state.user.data.username;
+    const token = this.$store.getters.token;
 
     await axios
       .post(
         "https://8rj68a68ml.execute-api.us-east-1.amazonaws.com/default/gethistory",
-        { username: username }
+        { token }
       )
       .then((response) => {
         this.orders = response.data;
