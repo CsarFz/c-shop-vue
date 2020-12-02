@@ -1,9 +1,9 @@
 <template>
   <section id="formResetPassword">
-    <div class="container mt-5 pb-4">
+    <div class="container my-5 py-5">
       <div class="row d-flex justify-content-center">
-        <div class="col-md-7 mt-5">
-          <div class="card pt-5 pb-3 bordersCards shadow noBorders">
+        <div class="col-md-7">
+          <div class="card pt-5 pb-4 border-20 shadow">
             <div class="card-body">
               <h2 class="card-title text-center">Cambia tu contraseña</h2>
               <div class="form-group text-center">
@@ -17,9 +17,9 @@
                 Ingrese su usuario (dirección de correo electrónico asociado con
                 su cuenta) y la nueva contraseña a la que desea cambiar.
               </p>
-              <form class="px-5 mt-4">
+              <form class="mt-4">
                 <div class="form-group row">
-                  <div class="col-sm-12 px-5 my-2">
+                  <div class="col-sm-12 px-lg-5 my-2">
                     <input
                       type="text"
                       v-model="email"
@@ -28,7 +28,7 @@
                       placeholder="Usuario"
                     />
                   </div>
-                  <div class="col-sm-12 px-5 my-2">
+                  <div class="col-sm-12 px-lg-5 my-2">
                     <input
                       type="password"
                       v-model="password"
@@ -53,7 +53,7 @@
                 <div class="col-md-12 text-center text-muted">
                   <p>
                     Regresar a
-                    <router-link to="/login" class="textPrimary">
+                    <router-link to="/login" class="link-cShop">
                       Iniciar Sesión</router-link
                     >
                   </p>
@@ -117,6 +117,7 @@ export default {
       };
 
       if (this.formValid()) {
+        await this.$store.dispatch("setLoadingStatus", true);
         await axios
           .post(
             "https://8rj68a68ml.execute-api.us-east-1.amazonaws.com/default/changepassword",
@@ -126,12 +127,14 @@ export default {
             const data = response.data;
 
             if (data.success) {
-              this.$swal("¡Éxito!", "Su contraseña se ha cambiado correctamente", "success");
               this.hideModal();
+              this.$store.dispatch("setLoadingStatus", false);
+              this.$swal("¡Éxito!", "Su contraseña se ha cambiado correctamente", "success");
               this.$router.push("/login");
             } else {
-              this.$swal("Error", data.message, "error");
               this.hideModal();
+              this.$store.dispatch("setLoadingStatus", false);
+              this.$swal("Error", data.message, "error");
             }
           });
       }

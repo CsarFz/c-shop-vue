@@ -29,8 +29,5 @@ export default {
     },
     addAddress(address) {
         return api.post("add-address", address);
-    },
-    logout(token) {
-        return api.post("logout", token);
-    },
+    }
 }

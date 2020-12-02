@@ -102,6 +102,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "Header",
   data() {
@@ -116,8 +117,27 @@ export default {
   },
   methods: {
     async logout() {
-      await this.$store.dispatch("logout", { token: this.$store.getters.token });
-      this.$router.push("/").catch(() => {});
+      const store = this.$store;
+      const token = this.$store.getters.token;
+
+      await store.dispatch("setLoadingStatus", true);
+      await axios
+        .post(
+          "https://8rj68a68ml.execute-api.us-east-1.amazonaws.com/default/logout",
+          { token }
+        )
+        .then((response) => {
+          const logout = response.data.logout;
+          if (logout) {
+            this.$router.push("/").catch(() => {});
+            store.dispatch("setLoadingStatus", false);
+            this.$swal("¡Éxito!", "Se cerró sesión satisfactoriamente.", "success");
+            store.dispatch("setUser", null);
+          } else {
+            this.$swal("Error", "No se cerró sesión satisfactoriamente.", "error");
+            store.dispatch("setLoadingStatus", false);
+          }
+        });
     },
     search() {
       try {

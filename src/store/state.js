@@ -16,5 +16,5 @@ export default {
     products: [],
     product: null,
     cart: [],
-    loading: true
+    loading: false
 }

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="elevation position-absolute bg-white d-flex flex-column justify-content-center vh-100 vw-100"
+    class="elevation position-fixed bg-white d-flex flex-column justify-content-center vh-100 vw-100"
   >
     <label class="vw-100 small text-center">Cargando...</label>
     <div class="text-center">
@@ -17,6 +17,6 @@ export default {
 
 <style scoped>
 .elevation {
-  z-index: 150;
+  z-index: 1000000;
 }
 </style>

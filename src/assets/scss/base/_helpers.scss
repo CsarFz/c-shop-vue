@@ -10,3 +10,18 @@
         border: 1px solid $primary-cshop;
     }
 }
+
+.swal-modal,
+.swal-text {
+    text-align: center;
+}
+
+.swal-button {
+    background-color: $primary-cshop;
+
+    &:hover {
+        background-color: $white-cshop !important;
+        color: $primary-cshop;
+        border: 1px solid $primary-cshop;
+    }
+}

@@ -11,9 +11,9 @@
                 <div>
                   <img
                     class="mb-3 rounded-pill shadow-sm mt-1 img-fluid"
-                    src="https://picsum.photos/200/200"
+                    src="../assets/images/user-icon.svg"
                     width="150"
-                    alt="gurdeep singh osahan"
+                    alt="user-icon"
                   />
                   <div>
                     <h6 class="mb-2 font-weight-bold">
@@ -178,7 +178,7 @@
                     <div class="col-sm-12 text-right">
                       <button
                         type="button"
-                        class="btn btn-cshop"
+                        class="btn btn-cshop mb-3"
                         @click.prevent="saveProfile"
                       >
                         Guardar

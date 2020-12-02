@@ -154,7 +154,7 @@ export default {
     };
   },
   methods: {
-    signUp() {
+    async signUp() {
       const data = {
         username: this.email,
         name: this.name,
@@ -165,21 +165,19 @@ export default {
       };
 
       if (this.formValid()) {
-        axios
+        await this.$store.dispatch("setLoadingStatus", true);
+        await axios
           .post(
-            "https://e7wcxdtzba.execute-api.us-east-1.amazonaws.com/default/register",
+            "https://8rj68a68ml.execute-api.us-east-1.amazonaws.com/default/register",
             data
           )
           .then((response) => {
             const data = response.data;
 
             if (data.success) {
-              this.$toasted.success("Su cuenta ha sido creada exitosamente.", {
-                duration: 3000,
-                keepOnHover: true,
-                icon: "check",
-              });
+              this.$swal("¡Éxito!", "Su cuenta ha sido creada exitosamente.", "success");
               // this.$store.dispatch("setUser", data);
+              this.$store.dispatch("setLoadingStatus", false);
               document.getElementById("email").classList.remove("is-invalid");
               document.getElementById("email").classList.add("is-valid");
               this.$router.push("/");
@@ -187,21 +185,13 @@ export default {
               this.errors.push(data.message);
               document.getElementById("email").classList.add("is-invalid");
             } else {
-              this.showToast("Error en el servidor.");
+              this.$swal("Error", "Error en el servidor.", "error");
             }
           })
           .catch((e) => {
             console.log(e);
           });
       }
-    },
-    showToast(message) {
-      this.$toasted.error(message, {
-        position: "bottom-center",
-        duration: 3500,
-        keepOnHover: true,
-        icon: "times",
-      });
     },
     validEmail(email) {
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; // eslint-disable-line
@@ -285,9 +275,6 @@ export default {
       } else if (this.confirmPassword != this.password) {
         this.errors.push("Las contraseñas no coinciden.");
         document.getElementById("confirmPassword").classList.add("is-invalid");
-      } else {
-        document.getElementById("confirmPassword").classList.remove("is-invalid");
-        document.getElementById("confirmPassword").classList.add("is-valid");
       }
 
       if (!this.errors.length) {

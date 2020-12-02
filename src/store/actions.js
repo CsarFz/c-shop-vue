@@ -25,7 +25,7 @@ export const addProductToCart = ({
     }).then(response => {
         const data = response.data;
         if (data.code === "403") {
-            swal("Error 403", "No tiene permisos para añadir productos al carrito.", "error");
+            swal("Error 403", "No tiene permisos para añadir productos al carrito. Regístrate o inicia sesión para tener permisos.", "error");
         } else {
             swal("¡Éxito!", `Se añadió el producto ${product.name} a su carrito.`, "success");
             commit('ADD_TO_CART', {
@@ -45,7 +45,7 @@ export const getCart = ({
         username
     }).then(response => {
         const data = response.data;
-
+        console.log(data);
         let arr = [];
         data.forEach((item) => {
             arr.push({
@@ -82,7 +82,7 @@ export const removeProduct = ({
         const data = response.data;
 
         if (data.code === "403") {
-            swal("Error 403", "No tiene permisos para eliminar el producto del carrito.", "error");
+            swal("Error 403", "No tiene permisos para eliminar el producto del carrito. Regístrate o inicia sesión para tener permisos", "error");
         } else {
             swal("¡Éxito!", `Se eliminó el producto ${product.name} satisfactoriamente.`, "success");
             commit("REMOVE_PRODUCT_FROM_CART", product);
@@ -93,6 +93,7 @@ export const removeProduct = ({
 export const setUser = ({
     commit
 }, user) => {
+    console.log(user);
     if (user) {
         commit("SET_LOGGED_IN", true);
         commit("SET_USER", {
@@ -103,23 +104,8 @@ export const setUser = ({
         commit("SET_USER", {});
         commit("SET_LOGGED_IN", false);
         commit("SET_USER_INFO", {});
+        commit("SET_CART", []);
     }
-}
-
-export const logout = ({commit}, token) => {
-    functions.logout(token).then(response => {
-        const logout = response.data.logout;
-        
-        if (logout) {
-            swal("¡Éxito!", "Se cerró sesión satisfactoriamente.", "success");
-            commit("SET_USER", {});
-            commit("SET_LOGGED_IN", false);
-            commit("SET_USER_INFO", {});
-            commit("SET_CART", []);
-        } else {
-            swal("Error", "No se cerró sesión satisfactoriamente.", "error");
-        }
-    });
 }
 
 export const getUser = ({
@@ -153,7 +139,7 @@ export const editUser = ({
                 phone: info.phone
             });
         } else if (code === "403") {
-            swal("Error 403", "No tiene permisos para editar los datos.", "error");
+            swal("Error 403", "No tiene permisos para editar los datos. Regístrate o inicia sesión para tener permisos", "error");
         } else {
             swal("Error", "Hubo un error al editar los datos del usuario.", "error");
         }

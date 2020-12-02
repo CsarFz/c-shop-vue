@@ -67,7 +67,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-4 card-right">
+        <div class="col-lg-4 card-right mt-3 mt-md-0">
           <!-- <form class="promo-code-form mt-3 mt-lg-0">
             <input type="text" placeholder="Enter promo code" />
             <button type="submit" class="text-bold">Enviar</button>

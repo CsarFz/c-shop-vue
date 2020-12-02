@@ -208,7 +208,14 @@
                   <img :src="item.product.image" height="150" alt="" />
                 </div>
                 <h6>{{ item.product.name }}</h6>
-                <p>$ {{ item.product.price }}</p>
+                <p>{{
+                  `${new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                    minimumFractionDigits: 2,
+                  }).format(item.product.price)}`
+               }}
+               </p>
               </li>
             </ul>
             <ul class="price-list">
@@ -379,20 +386,28 @@ export default {
           this.showModal();
           this.hideModal();
         } else {
-          this.showToastError("Hay errores en el formulario.");
+          this.$swal(
+            "Error",
+            "Hay errores en el formulario. Por favor corríjalos.",
+            "error"
+          );
           this.hideModal();
         }
       } else if (this.showAddresses) {
         if (this.addressSelected) {
-          this.$store.dispatch("checkoutUser",  cart);
+          this.$store.dispatch("checkoutUser", cart);
           this.showModal();
           this.hideModal();
         } else {
-          this.showToastError("Seleccione una dirección guardada.");
+          this.$swal("Error", "Seleccione una dirección guardada.", "error");
           this.hideModal();
         }
       } else {
-        this.showToastError("Elija una opción de dirección de entrega.");
+        this.$swal(
+          "Error",
+          "Elija una opción de dirección de entrega.",
+          "error"
+        );
         this.hideModal();
       }
     },
@@ -413,13 +428,6 @@ export default {
     zipCodeValidation(zipCode) {
       const re = /^\d{5}[-\s]?(?:\d{4})?$/gm;
       return re.test(zipCode);
-    },
-    showToastError(message) {
-      this.$toasted.error(message, {
-        duration: 5000,
-        keepOnHover: true,
-        icon: "times",
-      });
     },
     checkForm() {
       this.errors = [];

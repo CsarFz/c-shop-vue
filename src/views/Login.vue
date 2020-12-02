@@ -85,7 +85,6 @@ export default {
   },
   methods: {
     async login() {
-      await this.$store.dispatch("setLoadingStatus", true);
       const data = {
         username: this.email,
         password: this.password,
@@ -93,6 +92,7 @@ export default {
       const tokenToEncode = { username: data.username };
 
       if (this.formValid()) {
+        await this.$store.dispatch("setLoadingStatus", true);
         await axios
           .post(
             "https://8rj68a68ml.execute-api.us-east-1.amazonaws.com/default/token",
@@ -118,6 +118,7 @@ export default {
             } else {
               this.errors = [];
               this.errors.push("Usuario o contraseña incorrectos.");
+              this.$store.dispatch("setLoadingStatus", false);
             }
           })
           .catch((e) => {

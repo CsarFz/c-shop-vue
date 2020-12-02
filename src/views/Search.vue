@@ -45,6 +45,7 @@
         <div class="col-12 text-center py-5" v-else>
           <h1 class="text-primary-cshop">Error 403</h1>
           <h2>No tiene permisos para buscar productos.</h2>
+          <h3>Regístrate o inicia sesión para tener permisos.</h3>
         </div>
       </div>
     </div>

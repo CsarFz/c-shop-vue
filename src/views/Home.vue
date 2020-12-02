@@ -5,7 +5,7 @@
     <section class="product-filter-section py-5" id="products">
       <div class="container">
         <div class="section-title text-center">
-          <h2>PRODUCTOS C-SHOP</h2>
+          <h2>PRODUCTOS <span class="text-primary-cshop">C-SHOP</span></h2>
         </div>
 
         <!-- <ul class="product-filter-menu text-center">
@@ -191,6 +191,7 @@ export default {
     };
   },
   async beforeCreate() {
+    await this.$store.dispatch("setLoadingStatus", true);
     await axios
       .post(
         "https://8rj68a68ml.execute-api.us-east-1.amazonaws.com/default/products"
@@ -214,6 +215,7 @@ export default {
           products !== undefined
             ? products.filter(({ category }) => category === "pc")
             : [];
+         this.$store.dispatch("setLoadingStatus", false);
       });
 
     const data = this.$store.state.user.data;

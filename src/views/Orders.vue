@@ -31,7 +31,7 @@
               <div class="col-md-4 m-auto text-center">
                 <img
                   :src="item.image"
-                  class="img-fluid rounded-lg"
+                  class="img-fluid rounded-lg mt-3 mt-md-0"
                   width="120"
                   alt="Product"
                 />
@@ -102,12 +102,14 @@ export default {
   async beforeCreate() {
     const token = this.$store.getters.token;
 
+    await this.$store.dispatch("setLoadingStatus", true);
     await axios
       .post(
         "https://8rj68a68ml.execute-api.us-east-1.amazonaws.com/default/gethistory",
         { token }
       )
       .then((response) => {
+        this.$store.dispatch("setLoadingStatus", false);
         this.orders = response.data;
       });
   },
