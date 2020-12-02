@@ -33,8 +33,8 @@
 export default {
   props: ["product"],
   methods: {
-    addToCart() {
-      this.$store.dispatch("addProductToCart", {
+    async addToCart() {
+      await this.$store.dispatch("addProductToCart", {
         product: this.product,
         username: this.$store.state.user.data.username,
         quantity: 1,

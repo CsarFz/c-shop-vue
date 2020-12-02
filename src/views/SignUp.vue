@@ -175,7 +175,7 @@ export default {
             const data = response.data;
 
             if (data.success) {
-              this.$swal("¡Éxito!", "Su cuenta ha sido creada exitosamente.", "success");
+              this.$swal("¡Éxito!", "Su cuenta ha sido creada exitosamente. Inicie sesión para navegar en C-Shop.", "success");
               // this.$store.dispatch("setUser", data);
               this.$store.dispatch("setLoadingStatus", false);
               document.getElementById("email").classList.remove("is-invalid");
