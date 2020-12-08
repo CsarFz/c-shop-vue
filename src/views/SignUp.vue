@@ -180,7 +180,7 @@ export default {
               this.$store.dispatch("setLoadingStatus", false);
               document.getElementById("email").classList.remove("is-invalid");
               document.getElementById("email").classList.add("is-valid");
-              this.$router.push("/");
+              this.$router.push("/login");
             } else if (data.code === "auth/email-already-in-use") {
               this.errors.push(data.message);
               document.getElementById("email").classList.add("is-invalid");

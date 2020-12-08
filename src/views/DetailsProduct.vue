@@ -52,12 +52,12 @@
             <span>{{ product.stock > 0 ? "En stock" : "Sin stock" }}</span>
           </h4>
 
-          <!-- <div class="quantity">
+          <div class="quantity">
             <p>Cantidad</p>
             <div class="pro-qty">
-              <input type="text" value="1" v-model="quantity" maxLength="1" />
+              <input type="text" v-model="quantity" maxLength="1" />
             </div>
-          </div> -->
+          </div>
           <a
             href="#"
             role="button"
@@ -181,7 +181,7 @@ export default {
       this.$store.dispatch("addProductToCart", {
         product: this.product,
         username: this.$store.state.user.data.username,
-        quantity: 1,
+        quantity: this.quantity,
         token: this.$store.getters.token,
       });
     },
